@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 #import datetime
 #from datetime import date  # Import the date class
@@ -7,12 +7,8 @@ TEMPLATE_DIRS=(
     'os.path.join(BASE_DIR,"templates")'
 )
 
-
-# Create your views here.
 def index(request):
-    #today=datetime.datetime.now().date()
-    return render(request, "index.html")#, {"today": today})
-
+    return render(request, "home/index.html")
 
 def login(request):
     if request.method == "POST":
@@ -32,7 +28,7 @@ def login(request):
                     break
             if(flag==True):
                 # You can redirect or render a different template here if needed
-                return HttpResponse("Success!")# Example redirect to success page
+                return redirect('/home')
             else:
                 return HttpResponse("Failed!!")
         elif(radio_option=="option2"):
@@ -59,7 +55,7 @@ def login(request):
                 return HttpResponse("Success!")# Example redirect to success page
             else:
                 return HttpResponse("Failed!!")
-    return render(request, "login.html")
+    return render(request, 'home/login.html')
 
 
 def student_register(request):
@@ -80,7 +76,7 @@ def student_register(request):
         else:
             register_student(r_number,full_name,email,contact_number,date_of_birth,gender,department,cgpa,password)
             return render(request,"login.html")
-    return render(request,"student_register.html")
+    return render(request, 'home/student_register.html')
 
 
 def company_register(request):
@@ -99,8 +95,11 @@ def company_register(request):
         else:
             register_company(company_name,email,contact_number,street_number,city,state,country,pincode,password)
             return render(request,"login.html")
-    return render(request,"company_register.html")
+    return render(request, 'home/company_register.html')
 
 
 def password_reset(request):
-    return render(request,"password_reset.html")
+    return render(request, 'home/password_reset.html')
+
+def home(request):
+    return render(request, 'home/jobboard.html')
