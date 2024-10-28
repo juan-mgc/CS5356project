@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #CS5356 project
 
 ## Requirements
