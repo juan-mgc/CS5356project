@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #CS5356 project
 
 ## Requirements
@@ -45,10 +44,10 @@ To interact with the database, you can use Django's shell. Follow these steps:
    ```
 
 ## Available Pages
-- **Login Page**: `/home/login`
-- **Home Page**: `/home/index`
-- **Student Registration**: `/home/student_register`
-- **Company Registration**: `/home/company_register`
-- **Password Reset**: `/home/password_reset`
+- **Login Page**: `/login`
+- **Home Page**: `/index`
+- **Student Registration**: `/student_register`
+- **Company Registration**: `/company_register`
+- **Password Reset**: `/password_reset`
 
 ---

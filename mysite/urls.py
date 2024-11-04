@@ -19,7 +19,6 @@ from django.urls import path, include
 from django.shortcuts import redirect  # Import redirect function
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('home/', include('home.urls')),
-    path('', lambda request: redirect('/home/index/')),  #root URL to `/home/index/`
+    #path('admin/', admin.site.urls),
+    path('', include('home.urls')),  # This will set home.urls to start at the root
 ]

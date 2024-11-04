@@ -1,0 +1,18 @@
+<!-- student_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notices</title>
+</head>
+<body>
+    <h1>Your Notices</h1>
+    <ul>
+        {% for notice in notices %}
+        <li>
+            <strong>{{ notice.date_created }}</strong>: {{ notice.announcement_text }}
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

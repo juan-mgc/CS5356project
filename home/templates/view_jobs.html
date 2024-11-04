@@ -1,0 +1,20 @@
+<!-- student_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Jobs</title>
+</head>
+<body>
+    <h1>Available Jobs</h1>
+    <ul>
+        {% for job in jobs %}
+        <li>
+            <strong>{{ job.name }}</strong> at {{ job.company.company_name }}<br>
+            {{ job.description }}<br>
+            <a href="{% url 'apply_job' job.job_id %}">Apply</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

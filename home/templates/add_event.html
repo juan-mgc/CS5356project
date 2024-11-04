@@ -1,0 +1,117 @@
+{% load static %}
+<html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;1000&display=swap');
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Nunito', sans-serif;
+        box-sizing: border-box;
+    }
+    input::placeholder {
+        font-size: 12px;
+        color: rgba(100, 100, 100, 0.3);
+    }
+    input.form-control-lg {
+        font-size: 14px;
+    }
+    .form-check-input {
+        margin-left: 10px;
+    }
+    .form-check-label {
+        font-size: 0.75em;
+        color: rgba(100, 100, 100, 0.4);
+    }
+    .form-container {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 20px;
+        background-color: #fff;
+    }
+    .title {
+        font-size: 60px;
+        font-weight: bold;
+        color: #007bff;
+        margin: 50px 0 0 250px; /* Added margin to position the title */
+        position: absolute; /* Position absolutely */
+        top: 0; /* Align to top */
+        left: 0; /* Align to left */
+    }
+    .content-wrapper {
+        margin-top: 10px; /* Add space below the title */
+    }
+</style>
+<body>
+    <div class="title">Career-X</div> <!-- Moved title outside the row -->
+    
+    <section class="vh-100">
+      <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100 content-wrapper">
+          <div class="col-md-9 col-lg-6 col-xl-5">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+              class="img-fluid" alt="Sample image">
+          </div>
+  
+          <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 form-container">
+            <form method="post" action="{% url 'add_event' %}" onsubmit="return validateForm();">
+                {% csrf_token %}
+
+                <div class="text-center">
+                    <h2>Post Event</h2>
+                    <p> </p>
+                </div>
+
+                <!-- Event Name input -->
+                <input type="text" class="form-control form-control-lg" placeholder="Enter Event Name" name="event_name" required/>
+
+                <!-- Date input -->
+                <input style="margin-top:10px" type="date" class="form-control form-control-lg" placeholder="Select Date" name="date" required/>
+
+                <!-- Start Time input -->
+                <input style="margin-top:10px" type="time" class="form-control form-control-lg" placeholder="Start Time" name="start_time" required/>
+
+                <!-- End Time input -->
+                <input style="margin-top:10px" type="time" class="form-control form-control-lg" placeholder="End Time" name="end_time" required/>
+
+                <!-- Location input -->
+                <input style="margin-top:10px" type="text" class="form-control form-control-lg" placeholder="Enter Location" name="location" required/>
+
+                <!-- Event Type selection -->
+                <div style="margin-top:8px">
+                    <label>Event Type:</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="event_type" id="workshop" value="workshop" required>
+                        <label class="form-check-label" for="workshop">Workshop</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="event_type" id="seminar" value="seminar" required>
+                        <label class="form-check-label" for="seminar">Seminar</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="event_type" id="conference" value="conference" required>
+                        <label class="form-check-label" for="conference">Conference</label>
+                    </div>
+                </div>
+
+                <!-- Organizer input -->
+                <input style="margin-top:10px" type="text" class="form-control form-control-lg" placeholder="Enter Organizer Name" name="organizer" required/>
+
+                <!-- Contact Email input -->
+                <input style="margin-top:10px" type="email" class="form-control form-control-lg" placeholder="Enter Contact Email" name="contact_email" required/>
+
+                <!-- Submit Buttons -->
+                <div class="text-center text-lg-start mt-4 pt-2">
+                    <button type="submit" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;margin-bottom: 8px;font-size: 12px;width:150px;">Post Event</button>
+                    <a href="index"><button type="button" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;font-size: 12px;width:150px;margin-bottom: 10px;">Cancel</button></a>
+                </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+</body>
+</html>

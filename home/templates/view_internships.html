@@ -1,0 +1,20 @@
+<!-- student_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Available Internships</title>
+</head>
+<body>
+    <h1>Available Internships</h1>
+    <ul>
+        {% for internship in internships %}
+        <li>
+            <strong>{{ internship.name }}</strong> at {{ internship.company.company_name }}<br>
+            {{ internship.description }}<br>
+            <a href="{% url 'apply_internship' internship.internship_id %}">Apply</a>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,9 +1,19 @@
+from django.contrib.auth.models import User
 from django.db import models
 from datetime import * # Import the date class
 
 
 # Create your models here.
 class Student(models.Model):
+#the view_student_profile view currently tries to retrieve a Student object using request.user.email, 
+#which will fail if request.user is not a Student. In Django, request.user is usually an instance of 
+#the default User model and doesn’t directly map to custom models like Student, Company, or Admin.
+
+#To address this and support different user types (Student, Company, Admin), consider this solution:
+# link Student, Company, and Admin to Django's User Model:
+# extend the User model with a One-to-One relationship for each profile (Student, Company, Admin).
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)  #allow null temporarily
     student_id=models.IntegerField()
     full_name=models.CharField(max_length=100)
     email=models.CharField(max_length=100)
@@ -15,10 +25,11 @@ class Student(models.Model):
     cgpa=models.CharField(max_length=100)
     password=models.CharField(max_length=100)
     def __str__(self):
-        return str(self.student_id)
+        return self.user.username
 
 class Company(models.Model):
-    company_id=models.IntegerField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)  #allow null temporarily
+    company_id=models.IntegerField(primary_key=True)        #PK pay attention
     company_name=models.CharField(max_length=100)
     email=models.CharField(max_length=100)
     contact_number=models.IntegerField()
@@ -29,19 +40,56 @@ class Company(models.Model):
     pincode=models.IntegerField()
     password=models.CharField(max_length=100)
     def __str__(self):
-        return str(self.student_id)
+        return self.company_name
 
 class Admin(models.Model):
-    full_name=models.CharField(max_length=100)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)  #allow null temporarily
+    full_name = models.CharField(max_length=100)
     email=models.CharField(max_length=100)
     contact_number=models.CharField(max_length=100)
     age=models.CharField(max_length=100)
     gender=models.CharField(max_length=100)
     password=models.CharField(max_length=100)
     def __str__(self):
-        return str(self.student_id)
+        return self.user.username
 
+class Internship(models.Model):
+    internship_id = models.AutoField(primary_key=True)
+    role = models.CharField(max_length=100)  # Internship Role
+    description = models.TextField()
+    duration = models.CharField(max_length=50)  # Duration of Internship
+    type = models.CharField(max_length=20, choices=[('part_time', 'Part Time'), ('full_time', 'Full Time')])
+    location = models.CharField(max_length=20, choices=[('remote', 'Remote'), ('in_office', 'In Office'), ('hybrid', 'Hybrid')])
+    stipend = models.DecimalField(max_digits=10, decimal_places=2)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(Admin, on_delete=models.SET_NULL, null=True)
+    posted_date = models.DateField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.role
 
+class Job(models.Model):
+    job_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    company = models.ForeignKey('Company', on_delete=models.CASCADE)
+    created_by = models.ForeignKey('Admin', on_delete=models.SET_NULL, null=True)
+    posted_date = models.DateField(auto_now_add=True)
+
+#notices in student_board
+class Notice(models.Model):
+    notice_id = models.AutoField(primary_key=True)
+    announcement_text = models.TextField()
+    created_by = models.ForeignKey('Admin', on_delete=models.SET_NULL, null=True)
+    recipient = models.ForeignKey('Student', on_delete=models.CASCADE)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+class Event(models.Model):
+    event_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    date = models.DateField()
+    location = models.CharField(max_length=100)
 
 #Login
 def login_student():
@@ -128,15 +176,15 @@ new_student = Student(
     password='sruthi'
 )
 
-# Save the instance to the database
-new_student.save()
+from django.contrib.auth.models import User
+from home.models import Student
 
-# from home.models import Student
-#Student.objects.all()
+#create a User instance
+user = User.objects.create_user(username='sruthimandalapu@gmail.com', email='sruthimandalapu@gmail.com', password='sruthi')
 
-
-
- from home.models import Student
- students = Student.objects.all()
+#retrieve the existing Student and link the User
+student = Student.objects.get(email='sruthimandalapu@gmail.com')
+student.user = user
+student.save()
 
 '''

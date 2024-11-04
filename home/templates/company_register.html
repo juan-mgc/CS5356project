@@ -124,8 +124,10 @@
               <div class="text-center text-lg-start mt-4 pt-2">
                 <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
                   style="padding-left: 2.5rem; padding-right: 2.5rem;margin-bottom: 8px;font-size: 12px;width:150px;margin-right:8px;" onclick="return validatePasswords()">Let me In!</button>
-                  <a href="index"><button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
-                  style="padding-left: 2.5rem; padding-right: 2.5rem;font-size: 12px;width:150px;margin-bottom: 10px;">Go Back!</button></a>
+                  <a href="{% url 'index' %}">
+                    <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
+                    style="padding-left: 2.5rem; padding-right: 2.5rem; font-size: 12px; width:150px; margin-bottom: 10px;">Go Back!</button>
+                </a>
               </div>
 
             </form>

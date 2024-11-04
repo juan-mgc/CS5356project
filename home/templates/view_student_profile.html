@@ -1,0 +1,23 @@
+<!-- student_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Profile</title>
+</head>
+<body>
+    <h1>Welcome, {{ student.full_name }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="full_name">Full Name:</label>
+        <input type="text" name="full_name" value="{{ student.full_name }}" required><br>
+
+        <label for="contact_number">Contact Number:</label>
+        <input type="text" name="contact_number" value="{{ student.contact_number }}" required><br>
+
+        <!-- other fields -->
+
+        <button type="submit">Update Profile</button>
+    </form>
+</body>
+</html>
