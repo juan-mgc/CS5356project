@@ -11,12 +11,12 @@
         box-sizing: border-box;
     }
     .btn-custom {
-        font-size: 14px; /* Set desired font size */
-        width: 200px; /* Set button width */
-        margin-bottom: 10px; /* Spacing between buttons */
-        background-color: navy; /* Change button color to navy blue */
-        color: white; /* Change text color to white for contrast */
-        border: none; /* Remove button border */
+        font-size: 14px;
+        width: 200px;
+        margin-bottom: 10px;
+        background-color: navy;
+        color: white;
+        border: none;
     }
 </style>
 <body>
@@ -30,28 +30,27 @@
             </div>
             <div style="margin-top:10px;" class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                 <div class="text-center">
-                    <h2>Welcome to Your Dashboard</h2>
-                <p>   </p>
-               
-                    <!-- Buttons -->
-                    <a href="{% url 'view_students' %}">
-                        <button class="btn btn-primary btn-custom">PROFILE</button>
+                    <h2>Admin Dashboard</h2>
+                    <p>Manage your platform with ease</p>
 
-                    </a>
-                    <a href="{% url 'view_internships' %}">
-                        <button class="btn btn-primary btn-custom">INTERNSHIPS</button>
-                    </a>
-                    <a href="{% url 'view_jobs' %}">
-                        <button class="btn btn-primary btn-custom">JOBS</button>
-                    </a>
-                    <a href="{% url 'view_notice' %}">
-                        <button class="btn btn-primary btn-custom">NOTICES</button>
+                    <!-- Admin Dashboard Buttons -->
+                    <a href="{% url 'view_events' %}">
+                        <button class="btn btn-primary btn-custom">EVENTS</button>
                     </a>
                     <a href="{% url 'view_companies' %}">
                         <button class="btn btn-primary btn-custom">COMPANIES</button>
                     </a>
-                    <a href="{% url 'view_events' %}">
-                        <button class="btn btn-primary btn-custom">EVENTS</button>
+                    <a href="{% url 'view_jobs' %}">
+                        <button class="btn btn-primary btn-custom">JOBS</button>
+                    </a>
+                    <a href="{% url 'view_students' %}">
+                        <button class="btn btn-primary btn-custom">STUDENTS</button>
+                    </a>
+                    <a href="{% url 'view_notice' %}">
+                        <button class="btn btn-primary btn-custom">NOTICES</button>
+                    </a>
+                    <a href="{% url 'view_internships' %}">
+                        <button class="btn btn-primary btn-custom">INTERNSHIPS</button>
                     </a>
                     <a href="{% url 'logout' %}">
                         <button class="btn btn-danger btn-custom">LOGOUT</button>

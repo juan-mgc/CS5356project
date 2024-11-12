@@ -52,6 +52,26 @@ def authenticate_user(model, email, password):
     except model.DoesNotExist:
         return False
 
+def password_reset(request):
+    return render(request, '/password_reset.html')
+
+def home(request):
+    jobs = Job.objects.all()
+    internships = Internship.objects.all()
+    return render(request, 'jobboard.html', {'jobs': jobs, 'internships': internships})
+
+def logout_view(request):
+    # Handle logout logic here (e.g., using Django's built-in logout function)
+    from django.contrib.auth import logout
+    logout(request)
+    return render(request, 'logout.html')  # Replace with your actual logout redirect template
+
+# ADMIN
+def admin_dashboard(request):
+    return render(request, 'admin_dashboard.html')
+
+
+# STUDENT
 
 def student_register(request):
     if request.method == "POST":
@@ -73,6 +93,42 @@ def student_register(request):
             return render(request,"login.html")
     return render(request, 'student_register.html')
 
+#@login_required
+#def student_profile(request):
+    # Fetch the logged-in student data from the database
+    student = get_object_or_404(Student, user=request.user)
+
+    context = {
+        'student': student
+    }
+    return render(request, 'student_profile.html', context)
+
+def student_profile(request):
+    # Mock data for testing purposes
+    student = {
+        'full_name': 'John Doe',
+        'email': 'john.doe@example.com',
+        'contact_number': '+1234567890',
+        'dob': '1990-01-01',
+        'gender': 'Male',
+        'r_number': 'R12345',
+        'department': 'Computer Science',
+        'cgpa': '3.9'
+    }
+    
+    return render(request, 'student_profile.html', {'student': student})
+
+def student_dashboard(request):
+    return render(request, 'student_dashboard.html')
+
+def view_students(request):
+    students = Student.objects.all()
+    return render(request, 'view_students.html', {'students': students})
+
+
+
+
+# COMAPNY
 
 def company_register(request):
     if request.method == "POST":
@@ -92,19 +148,36 @@ def company_register(request):
             return render(request,"login.html")
     return render(request, 'company_register.html')
 
-def student_dashboard(request):
-    return render(request, 'student_dashboard.html')
+
 
 def company_dashboard(request):
     return render(request, 'company_dashboard.html')
 
-def password_reset(request):
-    return render(request, '/password_reset.html')
 
-def home(request):
-    jobs = Job.objects.all()
-    internships = Internship.objects.all()
-    return render(request, 'jobboard.html', {'jobs': jobs, 'internships': internships})
+
+def view_companies(request):
+    companies = Company.objects.all()
+    return render(request, 'view_companies.html', {'companies': companies})
+
+def company_profile(request):
+    # Dummy data for the company profile
+    company_data = {
+        "company_name": "Tech Solutions Inc.",
+        "email": "info@techsolutions.com",
+        "contact_number": "+1234567890",
+        "street_number": "123",
+        "city": "San Francisco",
+        "state": "California",
+        "country": "USA",
+        "pincode": "94107",
+    }
+
+    # Pass the data to the template
+    return render(request, 'company_profile.html', company_data)
+
+
+#INTERNSHIP
+
 
 def add_internship(request):
     if request.method == "POST":
@@ -135,7 +208,23 @@ def add_internship(request):
         return redirect("view_internships")  #redirect to list of internships after saving
     #GET request
     return render(request, "add_internship.html")
-    
+
+def view_internships(request):
+    internships = Internship.objects.all()
+    return render(request, 'view_internships.html', {'internships': internships})
+
+
+def apply_internship(request, internship_id):
+    internship = get_object_or_404(Internship, pk=internship_id)
+    # note there should be a many-to-many field for applications
+    internship.members_applied.add(request.user)
+    return redirect("view_internships")
+  
+
+  
+# JOB
+
+  
 def add_job(request):
     if request.method == "POST":
         name = request.POST.get("name")
@@ -149,6 +238,21 @@ def add_job(request):
         )
         return redirect("view_jobs")
     return render(request, "add_job.html")
+
+def view_jobs(request):
+    jobs = Job.objects.all()
+    return render(request, 'view_jobs.html', {'jobs': jobs})
+
+def apply_job(request, job_id):
+    job = get_object_or_404(Job, pk=job_id)
+    # note there should be a many-to-many field for applications
+    job.members_applied.add(request.user)
+    return redirect("view_jobs")
+
+
+ 
+ 
+ # EVENT 
     
 def add_event(request):
     if request.method == "POST":
@@ -165,6 +269,16 @@ def add_event(request):
         return redirect("view_events")
     return render(request, "add_event.html")
 
+
+
+def view_events(request):
+    events = Event.objects.all()
+    return render(request, 'view_events.html', {'events': events})
+
+
+# NOTICE
+
+
 def add_notice(request):
     if request.method == "POST":
         announcement_text = request.POST.get("announcement_text")
@@ -176,58 +290,10 @@ def add_notice(request):
         )
         return redirect("view_notice")
     return render(request, "add_notice.html")
-    
-@login_required
-def view_student_profile(request):
-    if hasattr(request.user, 'student'):
-        student = request.user.student
-        if request.method == "POST":
-            student.full_name = request.POST.get("full_name")
-            student.contact_number = request.POST.get("contact_number")
-            student.save()
-            return redirect("view_student_profile")
-        return render(request, 'view_student_profile.html', {'student': student})
-    return HttpResponse("Unauthorized", status=401)
 
-def view_internships(request):
-    internships = Internship.objects.all()
-    return render(request, 'view_internships.html', {'internships': internships})
-def apply_internship(request, internship_id):
-    internship = get_object_or_404(Internship, pk=internship_id)
-    # note there should be a many-to-many field for applications
-    internship.members_applied.add(request.user)
-    return redirect("view_internships")
-
-def view_jobs(request):
-    jobs = Job.objects.all()
-    return render(request, 'view_jobs.html', {'jobs': jobs})
-def apply_job(request, job_id):
-    job = get_object_or_404(Job, pk=job_id)
-    # note there should be a many-to-many field for applications
-    job.members_applied.add(request.user)
-    return redirect("view_jobs")
-
-@login_required
 def view_notice(request):
-    #retrieve the Student instance linked to the current user
-    if hasattr(request.user, 'student'):
-        student = request.user.student
-        #filter notices for this student
-        notices = Notice.objects.filter(recipient=student)
-        return render(request, 'view_notice.html', {'notices': notices})
-    else:
-        return HttpResponse("Unauthorized", status=401)
+    notice = Notice.objects.all()
+    return render(request, 'view_notice.html', {'notice': notice})
 
-def view_companies(request):
-    companies = Company.objects.all()
-    return render(request, 'view_companies.html', {'companies': companies})
 
-def view_events(request):
-    events = Event.objects.all()
-    return render(request, 'view_events.html', {'events': events})
 
-def logout_view(request):
-    # Handle logout logic here (e.g., using Django's built-in logout function)
-    from django.contrib.auth import logout
-    logout(request)
-    return render(request, 'logout.html')  # Replace with your actual logout redirect template

@@ -24,37 +24,37 @@
       </div>
 
       <div style="margin-top:10px;" class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-        <h2 class="text-center mb-4">Student Profile</h2>
+        <h2 class="text-center mb-4">Company Profile</h2>
 
         <!-- Profile Details Display -->
         <form>
-          <!-- Full Name -->
-          <input type="text" class="form-control form-control-lg" value="{{ student.full_name }}" readonly />
+          <!-- Company Name -->
+          <input type="text" class="form-control form-control-lg" value="Tech Solutions Inc." readonly />
 
           <!-- Email -->
-          <input type="email" style="margin-top:10px" class="form-control form-control-lg" value="{{ student.email }}" readonly />
+          <input type="email" style="margin-top:10px" class="form-control form-control-lg" value="info@techsolutions.com" readonly />
 
           <!-- Contact Number -->
-          <input type="text" style="margin-top:8px" class="form-control form-control-lg" value="{{ student.contact_number }}" readonly />
+          <input type="text" style="margin-top:8px" class="form-control form-control-lg" value="+1234567890" readonly />
 
-          <!-- Date of Birth -->
-          <input type="text" style="margin-top:8px" class="form-control form-control-lg" value="{{ student.dob }}" readonly />
+          <!-- Street Number -->
+          <input type="text" style="margin-top:8px" class="form-control form-control-lg" value="123" readonly />
 
-          <!-- Gender -->
-          <input type="text" style="margin-top:8px" class="form-control form-control-lg" value="{{ student.gender }}" readonly />
+          <!-- City -->
+          <input type="text" style="margin-top:8px" class="form-control form-control-lg" value="San Francisco" readonly />
 
-          <!-- R-Number -->
-          <input type="text" style="margin-top:8px" class="form-control form-control-lg" value="{{ student.r_number }}" readonly />
+          <!-- State -->
+          <input type="text" style="margin-top:8px" class="form-control form-control-lg" value="California" readonly />
 
-          <!-- Department -->
-          <input type="text" style="margin-top:8px" class="form-control form-control-lg" value="{{ student.department }}" readonly />
+          <!-- Country -->
+          <input type="text" style="margin-top:8px" class="form-control form-control-lg" value="USA" readonly />
 
-          <!-- CGPA -->
-          <input type="text" style="margin-top:8px" class="form-control form-control-lg" value="{{ student.cgpa }}" readonly />
+          <!-- Pincode -->
+          <input type="text" style="margin-top:8px" class="form-control form-control-lg" value="94107" readonly />
 
           <!-- Back Button -->
           <div class="text-center mt-4 pt-2">
-            <a href="{% url 'index' %}">
+            <a href="{% url 'company_dashboard' %}">
               <button type="button" class="btn btn-primary btn-lg" style="font-size: 12px; width:150px;">
                 Go Back!
               </button>

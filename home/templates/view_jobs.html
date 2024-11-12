@@ -1,20 +1,183 @@
-<!-- student_dashboard.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Available Jobs</title>
-</head>
+{% load static %}
+<html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;1000&display=swap');
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Nunito', sans-serif;
+        box-sizing: border-box;
+    }
+    body {
+        background-color: #f4f8ff; /* Light blue background */
+    }
+    .btn-custom {
+        font-size: 12px; /* Reduced button size */
+        width: 150px; /* Reduced width */
+        margin-bottom: 10px;
+        background-color: #007bff; /* Light blue background for buttons */
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
+    .btn-custom:hover {
+        background-color: #007bff; /* Darker shade on hover */
+    }
+    .table-container {
+        margin-top: 30px;
+    }
+    table {
+        width: 100%; /* Stretch the table to fill the container */
+        table-layout: fixed;
+    }
+    thead {
+        background-color: #007bff; /* Light blue color */
+        color: white;
+    }
+    th, td {
+        padding: 10px;
+        text-align: center;
+    }
+    .header {
+        padding-top: 30px;
+        text-align: center;
+        font-size: 30px;
+        color: #007bff; /* Light blue for the header */
+    }
+    .search-bar {
+        width: 200px;
+        margin-top: 30px;
+    }
+    .button-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+        gap: 20px; /* Adds space between buttons */
+    }
+    .search-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+    .search-container input {
+        width: 180px;
+        margin-right: 10px;
+    }
+</style>
+
 <body>
-    <h1>Available Jobs</h1>
-    <ul>
-        {% for job in jobs %}
-        <li>
-            <strong>{{ job.name }}</strong> at {{ job.company.company_name }}<br>
-            {{ job.description }}<br>
-            <a href="{% url 'apply_job' job.job_id %}">Apply</a>
-        </li>
-        {% endfor %}
-    </ul>
+
+<section class="vh-100">
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-md-12 col-lg-10 col-xl-10">
+                <!-- Project Name -->
+                <div class="header">
+                    <h2>Career-X</h2>
+                    <p>Manage your job listings with ease</p>
+                </div>
+
+                <!-- Search Bar and Buttons -->
+                <div class="d-flex justify-content-between align-items-center">
+                    <!-- Search Bar -->
+                    <div class="search-container">
+                        <input type="text" class="form-control search-bar" placeholder="Search by Job Role">
+                        <input type="text" class="form-control search-bar" placeholder="Search by Location">
+                        <input type="text" class="form-control search-bar" placeholder="Search by Company">
+                        <input type="text" class="form-control search-bar" placeholder="Search by Type">
+                    </div>
+
+                    <!-- Add Job and Dashboard Buttons -->
+                    <div class="button-container">
+                        <a href="{% url 'add_job' %}">
+                            <button class="btn btn-primary btn-custom">Add New Job</button>
+                        </a>
+                        <a href="{% url 'company_dashboard' %}">
+                            <button class="btn btn-secondary btn-custom">Dashboard</button>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Jobs Table -->
+                <div class="table-container">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Job ID</th>
+                                <th>Job Role</th>
+                                <th>Description</th>
+                                <th>Location</th>
+                                <th>Stipend</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dummy data for the table -->
+                            <tr>
+                                <td>1</td>
+                                <td>Software Engineer</td>
+                                <td>Developing scalable applications</td>
+                                <td>Remote</td>
+                                <td>$5000</td>
+                                <td>
+                                    <button class="btn btn-warning btn-custom">Edit</button>
+                                    <button class="btn btn-danger btn-custom">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Data Scientist</td>
+                                <td>Analyze data and create predictive models</td>
+                                <td>In Office</td>
+                                <td>$4000</td>
+                                <td>
+                                    <button class="btn btn-warning btn-custom">Edit</button>
+                                    <button class="btn btn-danger btn-custom">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Frontend Developer</td>
+                                <td>Building UI components</td>
+                                <td>Hybrid</td>
+                                <td>$3500</td>
+                                <td>
+                                    <button class="btn btn-warning btn-custom">Edit</button>
+                                    <button class="btn btn-danger btn-custom">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>Product Manager</td>
+                                <td>Managing product lifecycle</td>
+                                <td>Remote</td>
+                                <td>$6000</td>
+                                <td>
+                                    <button class="btn btn-warning btn-custom">Edit</button>
+                                    <button class="btn btn-danger btn-custom">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>UI/UX Designer</td>
+                                <td>Designing user interfaces</td>
+                                <td>In Office</td>
+                                <td>$3000</td>
+                                <td>
+                                    <button class="btn btn-warning btn-custom">Edit</button>
+                                    <button class="btn btn-danger btn-custom">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
 </body>
 </html>
