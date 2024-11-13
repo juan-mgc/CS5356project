@@ -5,15 +5,6 @@ from datetime import * # Import the date class
 
 # Create your models here.
 class Student(models.Model):
-#the view_student_profile view currently tries to retrieve a Student object using request.user.email, 
-#which will fail if request.user is not a Student. In Django, request.user is usually an instance of 
-#the default User model and doesn’t directly map to custom models like Student, Company, or Admin.
-
-#To address this and support different user types (Student, Company, Admin), consider this solution:
-# link Student, Company, and Admin to Django's User Model:
-# extend the User model with a One-to-One relationship for each profile (Student, Company, Admin).
-
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)  #allow null temporarily
     student_id=models.IntegerField()
     full_name=models.CharField(max_length=100)
     email=models.CharField(max_length=100)
@@ -25,11 +16,10 @@ class Student(models.Model):
     cgpa=models.CharField(max_length=100)
     password=models.CharField(max_length=100)
     def __str__(self):
-        return self.user.username
+        return str(self.student_id)
 
 class Company(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)  #allow null temporarily
-    company_id=models.IntegerField(primary_key=True)        #PK pay attention
+    company_id=models.IntegerField()
     company_name=models.CharField(max_length=100)
     email=models.CharField(max_length=100)
     contact_number=models.IntegerField()
@@ -40,41 +30,70 @@ class Company(models.Model):
     pincode=models.IntegerField()
     password=models.CharField(max_length=100)
     def __str__(self):
-        return self.company_name
+        return str(self.student_id)
 
 class Admin(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)  #allow null temporarily
-    full_name = models.CharField(max_length=100)
+    full_name=models.CharField(max_length=100)
     email=models.CharField(max_length=100)
     contact_number=models.CharField(max_length=100)
     age=models.CharField(max_length=100)
     gender=models.CharField(max_length=100)
     password=models.CharField(max_length=100)
     def __str__(self):
-        return self.user.username
+        return str(self.student_id)
 
 class Internship(models.Model):
-    internship_id = models.AutoField(primary_key=True)
-    role = models.CharField(max_length=100)  # Internship Role
+    internship_id=models.CharField(max_length=25,primary_key=True)
+    internship_role=models.CharField(max_length=50)
     description = models.TextField()
-    duration = models.CharField(max_length=50)  # Duration of Internship
-    type = models.CharField(max_length=20, choices=[('part_time', 'Part Time'), ('full_time', 'Full Time')])
+    internship_type = models.CharField(max_length=20, choices=[('part_time', 'Part Time'), ('full_time', 'Full Time')])
     location = models.CharField(max_length=20, choices=[('remote', 'Remote'), ('in_office', 'In Office'), ('hybrid', 'Hybrid')])
-    stipend = models.DecimalField(max_digits=10, decimal_places=2)
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
-    created_by = models.ForeignKey(Admin, on_delete=models.SET_NULL, null=True)
-    posted_date = models.DateField(auto_now_add=True)
-    
+    stipend = models.IntegerField()
+    start_date = models.DateField()
+    duration_months = models.IntegerField()
+    last_date_to_apply = models.DateField()
+    posted_date = models.DateTimeField(auto_now_add=True)
+    # Foreign key
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="internship")
+
     def __str__(self):
-        return self.role
+        return f"{self.title} at {self.company.company_name}"
+    
+class InternshipApplications(models.Model):
+    internship_application_id = models.AutoField(primary_key=True)
+    internship = models.ForeignKey('Internship', on_delete=models.CASCADE, related_name='internship_applications')  
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='internship_applications')
+    date_of_applied = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=50, choices=[('Pending', 'Pending'), ('Accepted', 'Accepted'), ('Rejected', 'Rejected')],default='Pending')
+
+    def __str__(self):
+        return f"{self.student.full_name} applied for {self.internship.Internship_name}"
 
 class Job(models.Model):
-    job_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
+    job_id=models.CharField(max_length=25,primary_key=True)
+    job_role=models.CharField(max_length=50)
     description = models.TextField()
-    company = models.ForeignKey('Company', on_delete=models.CASCADE)
-    created_by = models.ForeignKey('Admin', on_delete=models.SET_NULL, null=True)
-    posted_date = models.DateField(auto_now_add=True)
+    job_type = models.CharField(max_length=20, choices=[('part_time', 'Part Time'), ('full_time', 'Full Time')])
+    location = models.CharField(max_length=20, choices=[('remote', 'Remote'), ('in_office', 'In Office'), ('hybrid', 'Hybrid')])
+    salary = models.IntegerField()
+    start_date = models.DateField()
+    last_date_to_apply = models.DateField()
+    posted_date = models.DateTimeField(auto_now_add=True)
+    # Foreign Key
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="job")
+
+    def __str__(self):
+        return f"{self.title} at {self.company.company_name}"
+    
+class JobApplications(models.Model):
+    job_application_id = models.AutoField(primary_key=True)
+    job = models.ForeignKey('Job', on_delete=models.CASCADE, related_name='job_applications')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='job_applications')
+    date_of_applied = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=50, choices=[('Pending', 'Pending'), ('Accepted', 'Accepted'), ('Rejected', 'Rejected')], default='Pending')
+
+    def __str__(self):
+        return f"{self.student.name} applied for {self.job.job_name}"
 
 #notices in student_board
 class Notice(models.Model):
