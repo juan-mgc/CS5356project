@@ -5,59 +5,74 @@ from datetime import * # Import the date class
 
 # Create your models here.
 class Student(models.Model):
-    student_id=models.IntegerField()
-    full_name=models.CharField(max_length=100)
-    email=models.CharField(max_length=100)
-    contact_number=models.IntegerField()
-    date_of_birth=models.DateField()
-    gender=models.CharField(max_length=100)
-    r_number=models.CharField(max_length=100)
-    department=models.CharField(max_length=100)
-    cgpa=models.CharField(max_length=100)
-    password=models.CharField(max_length=100)
+    student_id = models.IntegerField(primary_key=True)  #custom primary Key
+    full_name = models.CharField(max_length=100)
+    email = models.CharField(max_length=100, unique=True)
+    contact_number = models.BigIntegerField()
+    date_of_birth = models.DateField()
+    gender = models.CharField(max_length=100)
+    r_number = models.CharField(max_length=100)
+    department = models.CharField(max_length=100)
+    cgpa = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+
     def __str__(self):
-        return str(self.student_id)
+        return self.full_name
 
 class Company(models.Model):
-    company_id=models.IntegerField()
-    company_name=models.CharField(max_length=100)
-    email=models.CharField(max_length=100)
-    contact_number=models.IntegerField()
-    street_number=models.CharField(max_length=100)
-    city=models.CharField(max_length=100)
-    state=models.CharField(max_length=100)
-    country=models.CharField(max_length=100)
-    pincode=models.IntegerField()
-    password=models.CharField(max_length=100)
+    company_id = models.IntegerField(primary_key=True)  #custom primary key
+    company_name = models.CharField(max_length=255)
+    email = models.EmailField(unique=True)
+    contact_number = models.IntegerField()
+    street_number = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
+    country = models.CharField(max_length=255)
+    pincode = models.CharField(max_length=10)
+    password = models.CharField(max_length=100)
     def __str__(self):
-        return str(self.student_id)
+        return str(self.company_id)
 
 class Admin(models.Model):
-    full_name=models.CharField(max_length=100)
-    email=models.CharField(max_length=100)
-    contact_number=models.CharField(max_length=100)
-    age=models.CharField(max_length=100)
-    gender=models.CharField(max_length=100)
-    password=models.CharField(max_length=100)
+    full_name = models.CharField(max_length=100)
+    email = models.CharField(max_length=100)
+    contact_number = models.CharField(max_length=100)
+    age = models.CharField(max_length=100)
+    gender = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
+
     def __str__(self):
-        return str(self.student_id)
+        return self.full_name
 
 class Internship(models.Model):
-    internship_id=models.CharField(max_length=25,primary_key=True)
-    internship_role=models.CharField(max_length=50)
+    internship_id = models.CharField(max_length=25, primary_key=True)
+    internship_role = models.CharField(max_length=50)
     description = models.TextField()
-    internship_type = models.CharField(max_length=20, choices=[('part_time', 'Part Time'), ('full_time', 'Full Time')])
-    location = models.CharField(max_length=20, choices=[('remote', 'Remote'), ('in_office', 'In Office'), ('hybrid', 'Hybrid')])
+    internship_type = models.CharField(
+        max_length=20,
+        choices=[
+            ('part_time', 'Part Time'),
+            ('full_time', 'Full Time'),
+        ],
+    )
+    location = models.CharField(
+        max_length=20,
+        choices=[
+            ('remote', 'Remote'),
+            ('in_office', 'In Office'),
+            ('hybrid', 'Hybrid'),
+        ],
+    )
     stipend = models.IntegerField()
     start_date = models.DateField()
     duration_months = models.IntegerField()
     last_date_to_apply = models.DateField()
     posted_date = models.DateTimeField(auto_now_add=True)
-    # Foreign key
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="internship")
+    created_by = models.ForeignKey(Admin, on_delete=models.SET_NULL, null=True, related_name="created_internships")
 
     def __str__(self):
-        return f"{self.title} at {self.company.company_name}"
+        return f"{self.internship_role} at {self.company.company_name}"
     
 class InternshipApplications(models.Model):
     internship_application_id = models.AutoField(primary_key=True)
@@ -70,20 +85,25 @@ class InternshipApplications(models.Model):
         return f"{self.student.full_name} applied for {self.internship.Internship_name}"
 
 class Job(models.Model):
-    job_id=models.CharField(max_length=25,primary_key=True)
-    job_role=models.CharField(max_length=50)
+    job_id = models.CharField(max_length=25, primary_key=True)
+    job_role = models.CharField(max_length=50)  # Rename "name" to "job_role"
     description = models.TextField()
-    job_type = models.CharField(max_length=20, choices=[('part_time', 'Part Time'), ('full_time', 'Full Time')])
-    location = models.CharField(max_length=20, choices=[('remote', 'Remote'), ('in_office', 'In Office'), ('hybrid', 'Hybrid')])
+    job_type = models.CharField(
+        max_length=20, choices=[('part_time', 'Part Time'), ('full_time', 'Full Time')]
+    )
+    location = models.CharField(
+        max_length=20,
+        choices=[('remote', 'Remote'), ('in_office', 'In Office'), ('hybrid', 'Hybrid')],
+    )
     salary = models.IntegerField()
     start_date = models.DateField()
     last_date_to_apply = models.DateField()
     posted_date = models.DateTimeField(auto_now_add=True)
-    # Foreign Key
     company = models.ForeignKey(Company, on_delete=models.CASCADE, related_name="job")
+    created_by = models.ForeignKey(Admin, on_delete=models.SET_NULL, null=True, related_name="created_jobs")
 
     def __str__(self):
-        return f"{self.title} at {self.company.company_name}"
+        return f"{self.job_role} at {self.company.company_name}"
     
 class JobApplications(models.Model):
     job_application_id = models.AutoField(primary_key=True)
@@ -100,7 +120,7 @@ class Notice(models.Model):
     notice_id = models.AutoField(primary_key=True)
     announcement_text = models.TextField()
     created_by = models.ForeignKey('Admin', on_delete=models.SET_NULL, null=True)
-    recipient = models.ForeignKey('Student', on_delete=models.CASCADE)
+    recipient_id = models.ForeignKey('Student', on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
 
 class Event(models.Model):

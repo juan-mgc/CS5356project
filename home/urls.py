@@ -18,7 +18,6 @@ urlpatterns = [
     path('view_student_profile/', views.view_student_profile, name='view_student_profile'),
     path('view_students/', views.view_students, name='view_students'),
     
-    
     #internship related paths
     path('view_internships/', views.view_internships, name='view_internships'),
     path('apply_internship/<int:internship_id>/', views.apply_internship, name='apply_internship'),
