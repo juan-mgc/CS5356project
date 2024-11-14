@@ -116,18 +116,42 @@ def login_view(request):
     return render(request, "login.html")
 
 def password_reset(request):
-    return render(request, '/password_reset.html')
+    if request.method == "POST":
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        #confirm_password = request.POST.get('confirm_password')
+        radio_option = request.POST.get('radio_options')
+        if radio_option=="option1":
+            lst=student_regsiter_emails()
+            if email in lst:
+                update_student_password(email,password)
+            else:
+                return HttpResponse("Email is not registered")
+        elif radio_option=="option2":
+            lst=company_regsiter_emails()
+            if email in lst:
+                update_company_password(email,password)
+            else:
+                return HttpResponse("Email is not registered")
+        else:
+            lst=admin_regsiter_emails()
+            if email in lst:
+                update_admin_password(email,password)
+            else:
+                return HttpResponse("Email is not registered")
+    return render(request, 'password_reset.html')
 
 def home(request):
     jobs = Job.objects.all()
     internships = Internship.objects.all()
     return render(request, 'jobboard.html', {'jobs': jobs, 'internships': internships})
 
-def logout_view(request):
+#def logout_view(request):
     # Handle logout logic here (e.g., using Django's built-in logout function)
-    from django.contrib.auth import logout
-    logout(request)
-    return render(request, 'logout.html')  # Replace with your actual logout redirect template
+    #from django.contrib.auth import logout
+    #logout(request)
+    #return render(request, 'logout.html')  # Replace with your actual logout redirect template
+    
 
 # ADMIN
 def admin_dashboard(request):
@@ -185,12 +209,23 @@ def create_student_record(full_name,email,contact_number,date_of_birth,gender,r_
         email=email,
         contact_number=contact_number,
         date_of_birth=date_of_birth,
+        gender=gender,
         r_number=r_number,
         department=department,
         cgpa=cgpa,
         password=password
         )
     new_student.save()
+
+def update_student_password(email,password):
+    student=Student.objects.get(email=email)
+    student.password=password
+    student.save()
+
+def update_admin_password(email,password):
+    admin=Admin.objects.get(email=email)
+    admin.password=password
+    admin.save()
     
 #updates details of a particular student by ID
 def update_student_record(student_id,full_name,email,contact_number,date_of_birth,gender,r_number,department,cgpa):
@@ -199,6 +234,7 @@ def update_student_record(student_id,full_name,email,contact_number,date_of_birt
     student.email=email
     student.contact_number=contact_number
     student.date_of_birth=date_of_birth
+    student.gender=gender
     student.r_number=r_number
     student.department=department
     student.cgpa=cgpa
@@ -295,6 +331,11 @@ def create_company_record(company_name,email,contact_number,street_number,city,s
         pincode=pincode,
     )
     new_company.save()
+
+def update_company_password(email,password):
+    company=Company.objects.get(email=email)
+    company.password=password
+    company.save()
     
 #update details of a particular company by ID
 def update_company_record(company_id,company_name,email,contact_number,street_number,city,state,country,pincode):

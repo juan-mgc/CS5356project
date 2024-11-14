@@ -166,6 +166,13 @@ def company_regsiter_emails():
         lst.append(company.email)
     return lst
 
+def admin_regsiter_emails():
+    admins = Admin.objects.all()
+    lst=[]
+    for admin in admins:
+        lst.append(admin.email)
+    return lst
+
 
 #Register
 def register_student(r_number,full_name,email,contact_number,date_of_birth,gender,department,cgpa,password):
