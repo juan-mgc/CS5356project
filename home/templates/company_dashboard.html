@@ -34,20 +34,23 @@
                 <p>   </p>
                
                     <!-- Buttons -->
-                    <a href="{% url 'view_student_profile' %}">
+                    <a href="{% url 'company_profile' company_id=company.company_id %}">
                         <button class="btn btn-primary btn-custom">PROFILE</button>
                     </a>
-                    <a href="{% url 'view_internships' %}">
+                    <a href="{% url 'add_internship' %}">
                         <button class="btn btn-primary btn-custom">ADD INTERNSHIPS</button>
                     </a>
-                    <a href="{% url 'view_jobs' %}">
+                    <a href="{% url 'add_job' %}">
                         <button class="btn btn-primary btn-custom">ADD JOBS</button>
                     </a>
                     <a href="{% url 'view_notifications' %}">
                         <button class="btn btn-primary btn-custom">ADD NOTIFICATIONS</button>
                     </a>
-                    <a href="{% url 'view_companies' %}">
-                        <button class="btn btn-primary btn-custom">VIEW APPLICANTS</button>
+                    <a href="{% url 'view_internship_applications' %}">
+                        <button class="btn btn-primary btn-custom">VIEW INTERSHIP APPLICANTS</button>
+                    </a>
+                    <a href="{% url 'view_job_applications' %}">
+                        <button class="btn btn-primary btn-custom">VIEW JOB APPLICANTS</button>
                     </a>
                     <a href="{% url 'view_events' %}">
                         <button class="btn btn-primary btn-custom">EVENTS</button>

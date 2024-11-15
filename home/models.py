@@ -5,7 +5,16 @@ from datetime import * # Import the date class
 
 # Create your models here.
 class Student(models.Model):
-    student_id=models.IntegerField()
+#the view_student_profile view currently tries to retrieve a Student object using request.user.email, 
+#which will fail if request.user is not a Student. In Django, request.user is usually an instance of 
+#the default User model and doesn’t directly map to custom models like Student, Company, or Admin.
+
+#To address this and support different user types (Student, Company, Admin), consider this solution:
+# link Student, Company, and Admin to Django's User Model:
+# extend the User model with a One-to-One relationship for each profile (Student, Company, Admin).
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)  #allow null temporarily
+    student_id=models.CharField(max_length=100, primary_key=True)    # primary key
     full_name=models.CharField(max_length=100)
     email=models.CharField(max_length=100)
     contact_number=models.IntegerField()
@@ -16,10 +25,11 @@ class Student(models.Model):
     cgpa=models.CharField(max_length=100)
     password=models.CharField(max_length=100)
     def __str__(self):
-        return str(self.student_id)
+        return self.user.username
 
 class Company(models.Model):
-    company_id=models.IntegerField()
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)  #allow null temporarily
+    company_id=models.CharField(max_length=100, primary_key=True)        #PK pay attention
     company_name=models.CharField(max_length=100)
     email=models.CharField(max_length=100)
     contact_number=models.IntegerField()
@@ -30,18 +40,21 @@ class Company(models.Model):
     pincode=models.IntegerField()
     password=models.CharField(max_length=100)
     def __str__(self):
-        return str(self.student_id)
+        return self.company_name
+    
 
 class Admin(models.Model):
-    full_name=models.CharField(max_length=100)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)  #allow null temporarily
+    full_name = models.CharField(max_length=100)
     email=models.CharField(max_length=100)
     contact_number=models.CharField(max_length=100)
     age=models.CharField(max_length=100)
     gender=models.CharField(max_length=100)
     password=models.CharField(max_length=100)
     def __str__(self):
-        return str(self.student_id)
+        return self.user.username
 
+    
 class Internship(models.Model):
     internship_id=models.CharField(max_length=25,primary_key=True)
     internship_role=models.CharField(max_length=50)
@@ -58,16 +71,7 @@ class Internship(models.Model):
 
     def __str__(self):
         return f"{self.title} at {self.company.company_name}"
-    
-class InternshipApplications(models.Model):
-    internship_application_id = models.AutoField(primary_key=True)
-    internship = models.ForeignKey('Internship', on_delete=models.CASCADE, related_name='internship_applications')  
-    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='internship_applications')
-    date_of_applied = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=50, choices=[('Pending', 'Pending'), ('Accepted', 'Accepted'), ('Rejected', 'Rejected')],default='Pending')
 
-    def __str__(self):
-        return f"{self.student.full_name} applied for {self.internship.Internship_name}"
 
 class Job(models.Model):
     job_id=models.CharField(max_length=25,primary_key=True)
@@ -84,6 +88,17 @@ class Job(models.Model):
 
     def __str__(self):
         return f"{self.title} at {self.company.company_name}"
+    
+ 
+class InternshipApplications(models.Model):
+    internship_application_id = models.AutoField(primary_key=True)
+    internship = models.ForeignKey('Internship', on_delete=models.CASCADE, related_name='internship_applications')  
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='internship_applications')
+    date_of_applied = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=50, choices=[('Pending', 'Pending'), ('Accepted', 'Accepted'), ('Rejected', 'Rejected')],default='Pending')
+
+    def __str__(self):
+        return f"{self.student.full_name} applied for {self.internship.Internship_name}"  
     
 class JobApplications(models.Model):
     job_application_id = models.AutoField(primary_key=True)
@@ -109,6 +124,7 @@ class Event(models.Model):
     description = models.TextField()
     date = models.DateField()
     location = models.CharField(max_length=100)
+
 
 #Login
 def login_student():

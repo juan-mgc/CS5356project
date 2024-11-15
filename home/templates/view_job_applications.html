@@ -1,0 +1,64 @@
+<head>
+    <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Center the heading at the top of the page */
+        h2 {
+            text-align: center;
+            margin-top: 20px; /* Adjust top margin if needed */
+        }
+
+        /* Add some space around the table and center it on the page */
+        .table-container {
+            width: 80%; /* Adjust the table width as per your need */
+            margin: 30px auto; /* Center the table and add space from the top and bottom */
+        }
+
+        table {
+            width: 100%; /* Ensure the table uses the full width of the container */
+            text-align: center; /* Center the content inside each table cell */
+        }
+
+        /* Optional: Add space between table rows */
+        td, th {
+            padding: 12px; /* Add padding to create space inside cells */
+        }
+    </style>
+</head>
+<h2>Job Applications</h2>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Applicant Name</th>
+            <th>Job Role</th>
+            <th>Email</th>
+            <th>Contact Number</th>
+            <th>CGPA</th>
+            <th>Status</th>
+            <th>Update Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for application in job_applications %}
+        <tr>
+            <td>{{ application.student.full_name }}</td>
+            <td>{{ application.job.job_role }}</td>
+            <td>{{ application.student.user.email }}</td>
+            <td>{{ application.student.contact_number }}</td>
+            <td>{{ application.student.cgpa }}</td>
+            <td>{{ application.status }}</td>
+            <td>
+                <form method="POST" action="{% url 'update_job_application_status' application.id %}">
+                    {% csrf_token %}
+                    <select name="status">
+                        <option value="Pending" {% if application.status == "Pending" %}selected{% endif %}>Pending</option>
+                        <option value="Accepted" {% if application.status == "Accepted" %}selected{% endif %}>Accepted</option>
+                        <option value="Rejected" {% if application.status == "Rejected" %}selected{% endif %}>Rejected</option>
+                    </select>
+                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

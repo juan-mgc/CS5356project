@@ -1,4 +1,4 @@
-# CS5356 project
+#CS5356 project
 
 ## Requirements
 To install the required dependencies, use the following command:
