@@ -117,6 +117,8 @@
                                 <th>Type</th>
                                 <th>Location</th>
                                 <th>Stipend</th>
+                                <th>Start Date</th>
+                                <th>Last Date to Apply</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -127,64 +129,32 @@
                                 <td>Software Development Intern</td>
                                 <td>Assisting in the development of new features</td>
                                 <td>6</td>
-                                <td>Remote</td>
+                                <td>Full-time</td>
                                 <td>Remote</td>
                                 <td>$2000</td>
+                                <td>2024-12-01</td>
+                                <td>2024-11-30</td>
                                 <td class="actions-container">
-                                    <button class="btn btn-warning btn-custom">Edit</button>
+                                    <a href="{% url 'update_internship'  %}" class="btn btn-warning btn-custom">Edit</a>
                                     <button class="btn btn-danger btn-custom">Delete</button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Data Science Intern</td>
-                                <td>Analyzing datasets and creating models</td>
-                                <td>3</td>
-                                <td>In Office</td>
-                                <td>New York</td>
-                                <td>$1500</td>
-                                <td class="actions-container">
-                                    <button class="btn btn-warning btn-custom">Edit</button>
-                                    <button class="btn btn-danger btn-custom">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>UI/UX Intern</td>
-                                <td>Designing user interfaces and experiences</td>
-                                <td>4</td>
-                                <td>Hybrid</td>
-                                <td>San Francisco</td>
-                                <td>$1800</td>
-                                <td class="actions-container">
-                                    <button class="btn btn-warning btn-custom">Edit</button>
-                                    <button class="btn btn-danger btn-custom">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Marketing Intern</td>
-                                <td>Helping with marketing campaigns</td>
-                                <td>3</td>
-                                <td>Remote</td>
-                                <td>Remote</td>
-                                <td>$1200</td>
-                                <td class="actions-container">
-                                    <button class="btn btn-warning btn-custom">Edit</button>
-                                    <button class="btn btn-danger btn-custom">Delete</button>
-                                </td>
-                            </tr>
+                           
                             <tr>
                                 <td>5</td>
                                 <td>Product Management Intern</td>
                                 <td>Assisting in product development</td>
                                 <td>6</td>
-                                <td>In Office</td>
+                                <td>Full-time</td>
                                 <td>Chicago</td>
                                 <td>$2500</td>
+                                <td>2024-11-20</td>
+                                <td>2024-12-15</td>
                                 <td class="actions-container">
-                                    <button class="btn btn-warning btn-custom">Edit</button>
-                                    <button class="btn btn-danger btn-custom">Delete</button>
+                                    <td class="actions-container">
+                                        <a href="{% url 'update_internship'  %}" class="btn btn-warning btn-custom">Edit</a>
+                                        <button class="btn btn-danger btn-custom">Delete</button>
+                                    </td>
                                 </td>
                             </tr>
                         </tbody>

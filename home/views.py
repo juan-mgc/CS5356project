@@ -153,7 +153,7 @@ def update_admin_details(admin_id,full_name,email,contact_number,age,gender):
     admin.contact_number=contact_number
     admin.age=age
     admin.gender=gender
-    company.save()
+    admin.save()
 
 # STUDENT
 def student_register(request):
@@ -346,8 +346,8 @@ def fetch_all_companies():
 
 def company_dashboard(request):
     return render(request, 'company_dashboard.html')
-
-@login_required
+'''
+#@login_required
 def company_profile(request):
     if hasattr(request.user, 'company'):  #check if the logged-in user has a company profile
         company = request.user.company
@@ -363,11 +363,15 @@ def company_profile(request):
             return redirect("company_profile")
         return render(request, 'company_profile.html', {'company': company})
     return HttpResponse("Unauthorized", status=401)
+'''
+
+def company_profile(request):
+    return render(request, 'company_profile.html')
 
 def view_companies(request):
     companies = Company.objects.all()
     return render(request, 'view_companies.html', {'companies': companies})
-
+'''
 @login_required
 def company_profile(request):
     if hasattr(request.user, 'company'):  # Check if the logged-in user has a company profile
@@ -385,6 +389,7 @@ def company_profile(request):
             return redirect("company_profile")
         return render(request, 'company_profile.html', {'company': company})
     return HttpResponse("Unauthorized", status=401)
+'''
 
 #INTERNSHIP
 def add_internship(request):
@@ -396,7 +401,8 @@ def add_internship(request):
         internship_type = request.POST.get("type")
         location = request.POST.get("location")
         stipend = request.POST.get("stipend")
-        
+        start_date = request.POST.get("start_date")
+        last_date_to_apply = request.POST.get("last_date_to_apply")
         company = Company.objects.first()  #replace with dynamic data if needed
         admin = Admin.objects.first()  #replace with the actual admin creating the post
 
@@ -411,7 +417,7 @@ def add_internship(request):
             duration = duration,
             company = company,
             last_date_to_apply = last_date_to_apply,
-            posted_date = posted_date,
+            posted_date = datetime.now(),
         )
         internship.save()
         
@@ -449,6 +455,9 @@ def update_internship_record(internship_id,role,description,duration,type,locati
     internship.created_by=created_by
     internship.posted_date=posted_date
     internship.save()
+    
+def update_internship(request):
+ return render(request, 'update_internship.html')
 
 def view_internships(request):
     internships = Internship.objects.all()
@@ -533,7 +542,7 @@ def add_job(request):
 def create_job_record(job_id,name,description,company,created_by,posted_date):
     job_count = Job.objects.count()
     new_job=Job(
-        job_id=internship_count+1,
+        job_id=job_count+1,
         name=name,
         description=description,
         company=company,
@@ -552,6 +561,10 @@ def update_job_record(job_id,name,description,company,created_by,posted_date):
     job.posted_date=posted_date
     job.save()
     
+def update_job(request):
+    return render(request, 'update_job.html')
+    
+    
 def delete_job(job_id):
     job=Job.objects.get(job_id=job_id)
     job.delete()
@@ -568,7 +581,7 @@ def view_particular_job(job_id):
 
 #fetches all job details as a list of lists
 def fetch_all_jobs():
-    jobs = Jobs.objects.all()
+    jobs = Job.objects.all()
     e=[]
     for job in jobs:
         lst=[]
@@ -626,6 +639,9 @@ def update_event_record(event_id,title,description,date,location):
     event.date=date
     event.location=location
     event.save()
+
+def update_event(request):
+    return render(request, 'update_event.html')
     
 def view_events(request):
     events = Event.objects.all()
@@ -685,6 +701,7 @@ def dashboard(request):
     return HttpResponse("Unauthorized", status=401)
 
 # NOTICE
+
 def add_notice(request):
     if request.method == "POST":
         announcement_text = request.POST.get("announcement_text")
@@ -696,7 +713,11 @@ def add_notice(request):
         )
         return redirect("view_notice")
     return render(request, "add_notice.html")
-
+'''
+def add_notice(request):
+    return render(request, 'add_notice.html')
+    '''
+    
 #creates a new notice record in DB
 def create_notice_record(notice_id,announcement_text,created_by,recipient,date_created):
     notice_count = Notice.objects.count()
@@ -708,8 +729,8 @@ def create_notice_record(notice_id,announcement_text,created_by,recipient,date_c
         date_created=date_created
         )
     new_notice.save()
-
-@login_required
+'''
+#@login_required
 def view_notice(request):
     user_type = request.session.get('user_type')
     if user_type == 'student':
@@ -723,6 +744,9 @@ def view_notice(request):
     else:
         return HttpResponse("Unauthorized access", status=401)
     return render(request, 'view_notice.html', {'notices': notices})
+'''
+def view_notice(request):
+    return render(request, 'view_notice.html')
 
 #fetches all notice details as a list of lists
 def fetch_all_notices():
@@ -746,6 +770,10 @@ def update_notice_record(notice_id,announcement_text,created_by,recipient,date_c
     notice.date_created=date_created
     notice.save()
     
+def update_notice(request):
+    return render(request, 'update_notice.html')
+    
+    
 def delete_notice(notice_id):
     notice=Notice.objects.get(notice_id=notice_id)
     notice.delete()
@@ -758,3 +786,9 @@ def view_particular_notice(notice_id):
     lst.append(notice.recipient)
     lst.append(notice.created_by)
     return lst
+
+
+#APPLICANTS
+
+def view_applicants(request):
+    return render(request, 'view_applicants.html')

@@ -97,14 +97,14 @@
                                 <td>{{ event.location }}</td>
                                 <td class="actions-container">
                                     {% if can_manage_events %}
-                                        <a href="{% url 'edit_event' event.event_id %}">
+                                        <a href="{% url 'update_event' %}">
                                             <button class="btn btn-warning btn-custom">Edit</button>
                                         </a>
                                         <a href="{% url 'delete_event' event.event_id %}">
                                             <button class="btn btn-danger btn-custom">Delete</button>
                                         </a>
                                     {% endif %}
-                                    <button class="btn btn-info btn-custom">View Details</button>
+                                
                                 </td>
                             </tr>
                             {% empty %}
