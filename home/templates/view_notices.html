@@ -1,6 +1,5 @@
 {% load static %}
 <html>
-<head>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 <style>
@@ -12,29 +11,29 @@
         box-sizing: border-box;
     }
     body {
-        background-color: #f4f8ff;
+        background-color: #f4f8ff; /* Light blue background */
     }
     .btn-custom {
-        font-size: 12px;
-        width: 100%;
+        font-size: 12px; /* Reduced button size */
+        width: 100%; /* Make buttons fit within table cells */
         margin-bottom: 10px;
-        background-color: #007bff;
+        background-color: #007bff; /* Light blue background for buttons */
         color: white;
         border: none;
         border-radius: 5px;
     }
     .btn-custom:hover {
-        background-color: #0056b3;
+        background-color: #007bff; /* Darker shade on hover */
     }
     .table-container {
         margin-top: 30px;
     }
     table {
-        width: 100%;
+        width: 100%; /* Stretch the table to fill the container */
         table-layout: fixed;
     }
     thead {
-        background-color: #007bff;
+        background-color: #007bff; /* Light blue color */
         color: white;
     }
     th, td {
@@ -45,30 +44,55 @@
         padding-top: 30px;
         text-align: center;
         font-size: 30px;
-        color: #007bff;
+        color: #007bff; /* Light blue for the header */
+    }
+    .search-bar {
+        width: 200px;
+        margin-top: 30px;
+    }
+    .button-container {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+        gap: 20px; /* Adds space between buttons */
+    }
+    .search-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+    .search-container input {
+        width: 180px;
+        margin-right: 10px;
+    }
+    .actions-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
     }
 </style>
-</head>
 <body>
     <section class="vh-100">
         <div class="container-fluid">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-md-12 col-lg-10 col-xl-10">
+                    <!-- Header -->
                     <div class="header">
                         <h2>Career-X</h2>
-                        <p>Manage your events with ease</p>
+                        <p>Manage your notices with ease</p>
                     </div>
     
+                    <!-- Search and Actions -->
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="search-container">
-                            <input type="text" class="form-control search-bar" placeholder="Search by Event Title">
+                            <input type="text" class="form-control search-bar" placeholder="Search by Notice Title">
                             <input type="text" class="form-control search-bar" placeholder="Search by Date">
                         </div>
                         <div class="button-container">
-                            {% if can_manage_events %}
-                                <a href="{% url 'add_event' %}">
-                                    <button class="btn btn-primary btn-custom">Add New Event</button>
-                                </a>
+                            {% if can_manage_notices %}
+                            <a href="{% url 'add_notice' %}">
+                                <button class="btn btn-primary btn-custom">Add New Notice</button>
+                            </a>
                             {% endif %}
                             <a href="{% url 'dashboard' %}">
                                 <button class="btn btn-secondary btn-custom">Dashboard</button>
@@ -76,36 +100,31 @@
                         </div>
                     </div>
     
+                    <!-- Notices Table -->
                     <div class="table-container">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Event ID</th>
-                                    <th>Title</th>
-                                    <th>Description</th>
+                                    <th>Notice ID</th>
+                                    <th>Announcement</th>
                                     <th>Date</th>
-                                    <th>Location</th>
-                                    {% if can_manage_events %}
-                                        <th>Actions</th>
+                                    {% if can_manage_notices %}
+                                    <th>Actions</th>
                                     {% endif %}
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for event in events %}
+                                {% for notice in notices %}
                                 <tr>
-                                    <td>{{ event.event_id }}</td>
-                                    <td>{{ event.title }}</td>
-                                    <td>{{ event.description }}</td>
-                                    <td>{{ event.date }}</td>
-                                    <td>{{ event.location }}</td>
-                                    {% if can_manage_events %}
+                                    <td>{{ notice.notice_id }}</td>
+                                    <td>{{ notice.announcement_text }}</td>
+                                    <td>{{ notice.date_created|date:"Y-m-d" }}</td>
+                                    {% if can_manage_notices %}
                                     <td class="actions-container">
-                                        <a href="{% url 'update_event' event.event_id %}">
-                                            <button class="btn btn-warning btn-custom">Edit</button>
-                                        </a>
+                                        <a href="{% url 'update_notice' notice.notice_id %}" class="btn btn-warning btn-custom">Edit</a>
                                         <button 
                                             class="btn btn-danger btn-custom" 
-                                            onclick="showDeleteModal('{% url 'delete_event' event.event_id %}')">
+                                            onclick="showDeleteModal('{% url 'delete_notice' notice.notice_id %}')">
                                             Delete
                                         </button>
                                     </td>
@@ -113,7 +132,7 @@
                                 </tr>
                                 {% empty %}
                                 <tr>
-                                    <td colspan="{% if can_manage_events %}6{% else %}5{% endif %}">No events available.</td>
+                                    <td colspan="{% if can_manage_notices %}4{% else %}3{% endif %}">No notices available.</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -123,7 +142,7 @@
             </div>
         </div>
     </section>
-    
+
     <!-- Delete Confirmation Modal -->
     <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -135,7 +154,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this event?
+                    Are you sure you want to delete this notice?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -147,7 +166,7 @@
             </div>
         </div>
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
     <script>

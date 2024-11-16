@@ -37,34 +37,28 @@
         </div>
 
         <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 form-container" style="margin-top:10px;">
-          <form method="post" action="{% url 'add_notice' %}">
+          <form method="post" action="{% url 'update_notice' notice.notice_id %}">
             {% csrf_token %}
-            <textarea name="announcement_text" class="form-control" placeholder="Enter announcement text" required></textarea>
-            
-            <!-- Admin Selection -->
-            <label for="created_by_id">Select Admin:</label>
-            <select name="created_by_id" class="form-control" required>
-                <option value="">Select Admin</option>
-                {% for admin in admins %}
-                <option value="{{ admin.id }}">{{ admin.full_name }}</option>
-                {% endfor %}
-            </select>
         
-            <!-- Student Selection -->
-            <label for="recipient_id">Select Student:</label>
-            <select name="recipient_id" class="form-control" required>
-                <option value="">Select Student</option>
-                {% for student in students %}
-                <option value="{{ student.student_id }}">{{ student.full_name }}</option>
-                {% endfor %}
-            </select>
+            <div class="text-center">
+                <h2>Update Notice</h2>
         
-            <div class="text-center mt-4">
-              <button type="submit" class="btn btn-primary">Add Event</button>
-              <button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancel</button>
+                <!-- Notice Title input -->
+                <input type="text" class="form-control form-control-lg" placeholder="Enter Notice Title" 
+                       name="announcement_text" value="{{ notice.announcement_text }}" required />
+        
+                <!-- Notice Date (read-only) -->
+                <label for="notice_date" style="margin-top:8px;">Notice Date:</label>
+                <input type="date" class="form-control form-control-lg" 
+                       name="notice_date" value="{{ notice.date_created|date:'Y-m-d' }}" readonly />
+        
+                <!-- Submit Buttons -->
+                <div class="text-center text-lg-start mt-4 pt-2">
+                    <button type="submit" class="btn btn-primary btn-custom">Update</button>
+                    <a href="javascript:history.back()" class="btn btn-secondary btn-custom">Cancel</a>
+                </div>
             </div>
         </form>
-        
         </div>
       </div>
     </div>

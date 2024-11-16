@@ -1,104 +1,91 @@
 {% load static %}
 <html>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;1000&display=swap');
-    * {
-        margin: 0;
-        padding: 0;
-        font-family: 'Nunito', sans-serif;
-        box-sizing: border-box;
-    }
-    body {
-        background-color: #f4f8ff; /* Light blue background */
-    }
-    .btn-custom {
-        font-size: 12px; /* Reduced button size */
-        width: 100%; /* Make buttons fit within table cells */
-        margin-bottom: 10px;
-        background-color: #007bff; /* Light blue background for buttons */
-        color: white;
-        border: none;
-        border-radius: 5px;
-    }
-    .btn-custom:hover {
-        background-color: #007bff; /* Darker shade on hover */
-    }
-    .table-container {
-        margin-top: 30px;
-    }
-    table {
-        width: 100%; /* Stretch the table to fill the container */
-        table-layout: fixed;
-    }
-    thead {
-        background-color: #007bff; /* Light blue color */
-        color: white;
-    }
-    th, td {
-        padding: 10px;
-        text-align: center;
-    }
-    .header {
-        padding-top: 30px;
-        text-align: center;
-        font-size: 30px;
-        color: #007bff; /* Light blue for the header */
-    }
-    .search-bar {
-        width: 200px;
-        margin-top: 30px;
-    }
-    .button-container {
-        display: flex;
-        justify-content: flex-end;
-        margin-top: 20px;
-        gap: 20px; /* Adds space between buttons */
-    }
-    .search-container {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
-    }
-    .search-container input {
-        width: 180px;
-        margin-right: 10px;
-    }
-    .actions-container {
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-    }
-</style>
-
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;1000&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #f4f8ff;
+        }
+        .btn-custom {
+            font-size: 12px;
+            width: 100%;
+            margin-bottom: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .table-container {
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            table-layout: fixed;
+        }
+        thead {
+            background-color: #007bff;
+            color: white;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        .header {
+            padding-top: 30px;
+            text-align: center;
+            font-size: 30px;
+            color: #007bff;
+        }
+        .search-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .search-bar {
+            width: 180px;
+        }
+        .button-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
 <body>
-
 <section class="vh-100">
     <div class="container-fluid">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-12 col-lg-10 col-xl-10">
-                <!-- Project Name -->
+                <!-- Header -->
                 <div class="header">
                     <h2>Career-X</h2>
                     <p>Manage your internship listings with ease</p>
                 </div>
 
-                <!-- Search Bar and Buttons -->
+                <!-- Search and Actions -->
                 <div class="d-flex justify-content-between align-items-center">
-                    <!-- Search Bar -->
                     <div class="search-container">
                         <input type="text" class="form-control search-bar" placeholder="Search by Internship Role">
                         <input type="text" class="form-control search-bar" placeholder="Search by Location">
                         <input type="text" class="form-control search-bar" placeholder="Search by Company">
                         <input type="text" class="form-control search-bar" placeholder="Search by Type">
                     </div>
-
-                    <!-- Add Internship and Dashboard Buttons -->
                     <div class="button-container">
+                        {% if can_manage_internships %}
                         <a href="{% url 'add_internship' %}">
                             <button class="btn btn-primary btn-custom">Add New Internship</button>
                         </a>
+                        {% endif %}
                         <a href="{% url 'dashboard' %}">
                             <button class="btn btn-secondary btn-custom">Dashboard</button>
                         </a>
@@ -117,84 +104,152 @@
                                 <th>Type</th>
                                 <th>Location</th>
                                 <th>Stipend</th>
+                                <th>Start Date</th>
+                                <th>Last Date to Apply</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Dummy data for the table -->
+                            {% for internship in internships %}
                             <tr>
-                                <td>1</td>
-                                <td>Software Development Intern</td>
-                                <td>Assisting in the development of new features</td>
-                                <td>6</td>
-                                <td>Remote</td>
-                                <td>Remote</td>
-                                <td>$2000</td>
+                                <td>{{ internship.internship_id }}</td>
+                                <td>{{ internship.internship_role }}</td>
+                                <td>{{ internship.description }}</td>
+                                <td>{{ internship.duration_months }}</td>
+                                <td>{{ internship.internship_type }}</td>
+                                <td>{{ internship.location }}</td>
+                                <td>{{ internship.stipend }}</td>
+                                <td>{{ internship.start_date }}</td>
+                                <td>{{ internship.last_date_to_apply }}</td>
                                 <td class="actions-container">
-                                    <button class="btn btn-warning btn-custom">Edit</button>
-                                    <button class="btn btn-danger btn-custom">Delete</button>
+                                    {% if user_type == 'admin' or internship.is_owner %}
+                                        <a href="{% url 'update_internship' internship.internship_id %}" class="btn btn-warning btn-custom">Edit</a>
+                                        <button 
+                                            class="btn btn-danger btn-custom" 
+                                            onclick="showDeleteModal('{% url 'delete_internship' internship.internship_id %}')">
+                                            Delete
+                                        </button>
+                                    {% elif is_student %}
+                                        {% if internship.student_applied %}
+                                            <button class="btn btn-secondary btn-custom" disabled>Applied</button>
+                                        {% else %}
+                                            <button 
+                                                class="btn btn-success btn-custom" 
+                                                onclick="showApplyModal('{{ internship.internship_id }}')">Apply</button>
+                                        {% endif %}
+                                    {% endif %}
                                 </td>
                             </tr>
+                            {% empty %}
                             <tr>
-                                <td>2</td>
-                                <td>Data Science Intern</td>
-                                <td>Analyzing datasets and creating models</td>
-                                <td>3</td>
-                                <td>In Office</td>
-                                <td>New York</td>
-                                <td>$1500</td>
-                                <td class="actions-container">
-                                    <button class="btn btn-warning btn-custom">Edit</button>
-                                    <button class="btn btn-danger btn-custom">Delete</button>
-                                </td>
+                                <td colspan="10">No internships available.</td>
                             </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>UI/UX Intern</td>
-                                <td>Designing user interfaces and experiences</td>
-                                <td>4</td>
-                                <td>Hybrid</td>
-                                <td>San Francisco</td>
-                                <td>$1800</td>
-                                <td class="actions-container">
-                                    <button class="btn btn-warning btn-custom">Edit</button>
-                                    <button class="btn btn-danger btn-custom">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Marketing Intern</td>
-                                <td>Helping with marketing campaigns</td>
-                                <td>3</td>
-                                <td>Remote</td>
-                                <td>Remote</td>
-                                <td>$1200</td>
-                                <td class="actions-container">
-                                    <button class="btn btn-warning btn-custom">Edit</button>
-                                    <button class="btn btn-danger btn-custom">Delete</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Product Management Intern</td>
-                                <td>Assisting in product development</td>
-                                <td>6</td>
-                                <td>In Office</td>
-                                <td>Chicago</td>
-                                <td>$2500</td>
-                                <td class="actions-container">
-                                    <button class="btn btn-warning btn-custom">Edit</button>
-                                    <button class="btn btn-danger btn-custom">Delete</button>
-                                </td>
-                            </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>
 </section>
+<!-- Apply Confirmation Modal -->
+<div class="modal fade" id="applyConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="applyModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="applyModalLabel">Confirm Application</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to apply for this internship? Your information will be submitted to the company.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button id="applyButton" type="button" class="btn btn-success">Apply</button>
+            </div>
+        </div>
+    </div>
+</div>
 
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirm Deletion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to delete this internship?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <form id="deleteForm" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
+<script>
+    let selectedInternshipId = null;
+
+    function showApplyModal(internshipId) {
+        selectedInternshipId = internshipId; // Save the internship ID for later use
+        $('#applyConfirmationModal').modal('show'); // Show the modal
+    }
+
+    document.getElementById('applyButton').addEventListener('click', function () {
+        if (selectedInternshipId) {
+            fetch(`/apply-internship/${selectedInternshipId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}', // CSRF token for security
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message); // Show success or error message
+                location.reload(); // Reload the page to update the button status
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            });
+        }
+    });
+
+    function showDeleteModal(deleteUrl) {
+        const deleteForm = document.getElementById('deleteForm');
+        deleteForm.action = deleteUrl;
+        $('#deleteConfirmationModal').modal('show');
+    }
+
+    function applyToInternship(internshipId) {
+        fetch(`/apply-internship/${internshipId}/`, {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred. Please try again.");
+        });
+    }
+</script>

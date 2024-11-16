@@ -43,10 +43,10 @@
                     <a href="{% url 'view_jobs' %}">
                         <button class="btn btn-primary btn-custom">JOBS</button>
                     </a>
-                    <a href="{% url 'view_students' %}">
+                    {% comment %} <a href="{% url 'view_students' %}">
                         <button class="btn btn-primary btn-custom">STUDENTS</button>
-                    </a>
-                    <a href="{% url 'view_notice' %}">
+                    </a> {% endcomment %}
+                    <a href="{% url 'view_notices' %}">
                         <button class="btn btn-primary btn-custom">NOTICES</button>
                     </a>
                     <a href="{% url 'view_internships' %}">

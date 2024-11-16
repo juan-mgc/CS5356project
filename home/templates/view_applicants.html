@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registered Companies</title>
+    <title>View Applicants</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <style>
@@ -89,52 +89,54 @@
     <section class="vh-100">
         <div class="container-fluid h-custom">
             <div class="row d-flex justify-content-center align-items-center h-100">
-                <div style="margin-top:10px;" class="col-md-8 col-lg-6 col-xl-6 offset-xl-1">
-                    <h2 class="text-center mb-4">Registered Companies</h2>
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <h2 class="text-center mb-4">Applicants</h2>
+                    <h4>Job Applicants</h4>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Role</th>
+                                <th>Applicant</th>
+                                <th>Date Applied</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Job Applicants -->
+                            {% for applicant in job_applicants %}
+                            <tr>
+                                <td>Job</td>
+                                <td>{{ applicant.job.job_role }}</td>
+                                <td>{{ applicant.student.full_name }}</td>
+                                <td>{{ applicant.date_of_applied }}</td>
+                                <td>{{ applicant.status }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5">No job applications available.</td>
+                            </tr>
+                            {% endfor %}
+                    
+                            <!-- Internship Applicants -->
+                            {% for applicant in internship_applicants %}
+                            <tr>
+                                <td>Internship</td>
+                                <td>{{ applicant.internship.internship_role }}</td>
+                                <td>{{ applicant.student.full_name }}</td>
+                                <td>{{ applicant.date_of_applied }}</td>
+                                <td>{{ applicant.status }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5">No internship applications available.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
     
-                    <!-- Companies Table -->
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Company ID</th>
-                                    <th>Company Name</th>
-                                    <th>Email</th>
-                                    <th>Country</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for company in companies %}
-                                <tr>
-                                    <td>{{ company.company_id }}</td>
-                                    <td>{{ company.company_name }}</td>
-                                    <td>{{ company.email }}</td>
-                                    <td>{{ company.country }}</td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="4">No companies registered.</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-    
-                    <!-- Go Back Button -->
-                    <div class="text-center mt-4 pt-2">
-                        <a href="{% if user_type == 'admin' %}
-                                    {% url 'admin_dashboard' %}
-                                 {% elif user_type == 'company' %}
-                                    {% url 'company_dashboard' %}
-                                 {% elif user_type == 'student' %}
-                                    {% url 'student_dashboard' %}
-                                 {% else %}
-                                    {% url 'home' %}
-                                 {% endif %}">
-                            <button type="button" class="btn go-back-btn">
-                                Go Back!
-                            </button>
-                        </a>
+                    <div class="text-center mt-4">
+                        <a href="{% url 'company_dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
                     </div>
                 </div>
             </div>

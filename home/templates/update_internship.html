@@ -1,0 +1,114 @@
+{% load static %}
+<html>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;1000&display=swap');
+    * {
+        margin: 0;
+        padding: 0;
+        font-family: 'Nunito', sans-serif;
+        box-sizing: border-box;
+    }
+    body {
+        background-color: #f4f8ff; /* Light blue background */
+    }
+    .form-container {
+        margin-top: 50px;
+        padding: 20px;
+        max-width: 600px; /* Sets a maximum width to make the form narrower */
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .form-header {
+        color: #007bff;
+        font-size: 28px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .btn-custom {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        width: 100%;
+    }
+    .btn-custom:hover {
+        background-color: #0056b3;
+    }
+    .button-group .btn-custom {
+        margin-right: 10px; /* Adjust to desired space */
+    }
+</style>
+
+<body>
+    <div class="container form-container">
+        <h2 class="form-header">Update Internship</h2>
+        <form method="POST" action="{% url 'update_internship' internship.internship_id %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="internship_id">Internship ID</label>
+                <input type="text" class="form-control" id="internship_id" name="internship_id" value="{{ internship.internship_id }}" readonly>
+            </div>
+    
+            <div class="form-group">
+                <label for="role">Internship Role</label>
+                <input type="text" class="form-control" id="role" name="internship_role" value="{{ internship.internship_role }}" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="4" required>{{ internship.description }}</textarea>
+            </div>
+    
+            <div class="form-group">
+                <label for="duration">Duration (Months)</label>
+                <input type="number" class="form-control" id="duration" name="duration_months" value="{{ internship.duration_months }}" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="type">Type</label>
+                <select class="form-control" id="type" name="internship_type" required>
+                    <option value="full_time" {% if internship.internship_type == "full_time" %}selected{% endif %}>Full-time</option>
+                    <option value="part_time" {% if internship.internship_type == "part_time" %}selected{% endif %}>Part-time</option>
+                </select>
+            </div>
+    
+            <div class="form-group">
+                <label for="location">Location</label>
+                <select class="form-control" id="location" name="location" required>
+                    <option value="remote" {% if internship.location == "remote" %}selected{% endif %}>Remote</option>
+                    <option value="hybrid" {% if internship.location == "hybrid" %}selected{% endif %}>Hybrid</option>
+                    <option value="in_office" {% if internship.location == "in_office" %}selected{% endif %}>In Office</option>
+                </select>
+            </div>
+    
+            <div class="form-group">
+                <label for="stipend">Stipend</label>
+                <input type="number" class="form-control" id="stipend" name="stipend" value="{{ internship.stipend }}" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="start_date">Start Date</label>
+                <input type="date" class="form-control" id="start_date" name="start_date" value="{{ internship.start_date|date:'Y-m-d' }}" required>
+            </div>
+    
+            <div class="form-group">
+                <label for="last_date_to_apply">Last Date to Apply</label>
+                <input type="date" class="form-control" id="last_date_to_apply" name="last_date_to_apply" value="{{ internship.last_date_to_apply|date:'Y-m-d' }}" required>
+            </div>
+    
+            <div class="button-group d-flex justify-content-between">
+                <!-- Save Changes Button -->
+                <button type="submit" class="btn btn-primary btn-custom">Save Changes</button>
+            
+                <!-- Go Back Button -->
+                <a href="{% url 'view_internships' %}" class="btn btn-secondary btn-custom">Go Back</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
+    
