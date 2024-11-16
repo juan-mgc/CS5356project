@@ -22,10 +22,10 @@ def login_view(request):
         password = request.POST.get('password')
         radio_option = request.POST.get('radio_options')
         user_authenticated = False
-
+        
         if radio_option == "student":
             student = Student.objects.filter(email=email).first()
-            if student and student.password == password:  # Replace with proper password validation if needed
+            if student and student.password == password:
                 user, created = User.objects.get_or_create(username=email)
                 if created:
                     user.set_password(password)
@@ -58,8 +58,7 @@ def login_view(request):
                 request.session['user_type'] = 'admin'
                 request.session['user_email'] = email
                 user_authenticated = True
-
-        # Redirect based on user type
+        #redirect based on user type
         if user_authenticated:
             if request.session['user_type'] == 'student':
                 return redirect('student_dashboard')
@@ -71,7 +70,6 @@ def login_view(request):
             return HttpResponse("Invalid credentials!")
 
     return render(request, "login.html")
-
 
 def password_reset(request):
     if request.method == "POST":
@@ -237,10 +235,6 @@ def delete_student(student_id):
 def student_dashboard(request):
     return render(request, 'student_dashboard.html')
 
-# def view_students(request):
-#     students = Student.objects.all()
-#     return render(request, 'view_students.html', {'students': students})
-
 @login_required
 def view_student_profile(request):
     if request.session.get('user_type') == 'student':
@@ -253,7 +247,7 @@ def profile_update(request):
     student = get_object_or_404(Student, email=request.session.get('user_email'))
     
     if request.method == "POST":
-        # Update student profile with the submitted form data
+        #update student profile with the submitted form data
         student.full_name = request.POST.get("full_name", student.full_name)
         student.contact_number = request.POST.get("contact_number", student.contact_number)
         student.date_of_birth = request.POST.get("date_of_birth", student.date_of_birth)
@@ -262,10 +256,8 @@ def profile_update(request):
         student.department = request.POST.get("department", student.department)
         student.cgpa = request.POST.get("cgpa", student.cgpa)
         
-        student.save()  # Save changes to the database
-        
-        return redirect('student_dashboard')  # Redirect to the student's dashboard after saving
-
+        student.save()  #saving changes to the database
+        return redirect('student_dashboard')  #redirect to the student's dashboard after saving
     return render(request, 'view_student_profile.html', {'student': student})
 
 # COMPANY
@@ -359,23 +351,6 @@ def fetch_all_companies():
 def company_dashboard(request):
     return render(request, 'company_dashboard.html')
 
-# @login_required
-# def company_profile(request):
-#     if hasattr(request.user, 'company'):  #check if the logged-in user has a company profile
-#         company = request.user.company
-#         if request.method == "POST":
-#             company.company_name = request.POST.get("company_name", company.company_name)
-#             company.contact_number = request.POST.get("contact_number", company.contact_number)
-#             company.street_number = request.POST.get("street_number", company.street_number)
-#             company.city = request.POST.get("city", company.city)
-#             company.state = request.POST.get("state", company.state)
-#             company.country = request.POST.get("country", company.country)
-#             company.pincode = request.POST.get("pincode", company.pincode)
-#             company.save()
-#             return redirect("company_profile")
-#         return render(request, 'company_profile.html', {'company': company})
-#     return HttpResponse("Unauthorized", status=401)
-
 def company_profile(request):
     return render(request, 'company_profile.html')
 
@@ -383,24 +358,6 @@ def view_companies(request):
     companies = Company.objects.all()
     user_type = request.session.get('user_type')  #ftch the user type from the session
     return render(request, 'view_companies.html', {'companies': companies, 'user_type': user_type})
-
-# @login_required
-# def company_profile(request):
-#     if hasattr(request.user, 'company'):  # Check if the logged-in user has a company profile
-#         company = request.user.company  # Access the linked company profile
-#         if request.method == "POST":
-#             # Update company details if submitted
-#             company.company_name = request.POST.get("company_name", company.company_name)
-#             company.contact_number = request.POST.get("contact_number", company.contact_number)
-#             company.street_number = request.POST.get("street_number", company.street_number)
-#             company.city = request.POST.get("city", company.city)
-#             company.state = request.POST.get("state", company.state)
-#             company.country = request.POST.get("country", company.country)
-#             company.pincode = request.POST.get("pincode", company.pincode)
-#             company.save()
-#             return redirect("company_profile")
-#         return render(request, 'company_profile.html', {'company': company})
-#     return HttpResponse("Unauthorized", status=401)
 
 #INTERNSHIP
 @login_required
@@ -525,7 +482,6 @@ def delete_internship(request, internship_id):
         return redirect('view_internships')
     return HttpResponse("Invalid request", status=400)
 
-    
 def view_particular_internship(internship_id):
     internship=Internship.objects.get(internship_id=internship_id)
     lst=[]
@@ -564,11 +520,9 @@ def apply_internship(request, internship_id):
     if request.method == "POST" and request.session.get('user_type') == 'student':
         student = get_object_or_404(Student, email=request.session.get('user_email'))
         internship = get_object_or_404(Internship, internship_id=internship_id)
-
         #check if the student has already applied
         if InternshipApplications.objects.filter(student=student, internship=internship).exists():
             return JsonResponse({"message": "You have already applied for this internship!"}, status=400)
-
         #create the application
         InternshipApplications.objects.create(student=student, internship=internship)
         return JsonResponse({"message": "Successfully applied to the internship!"}, status=200)
@@ -595,7 +549,6 @@ def add_job(request):
             admin = Admin.objects.filter(email=request.session.get('user_email')).first()
             company_id = request.POST.get("company_id")
             company = Company.objects.filter(company_id=company_id).first()
-
         #create the job with the relevant company or admin
         job = Job(
             job_role=job_role,
@@ -612,7 +565,6 @@ def add_job(request):
         messages.success(request, "Job added successfully.")
         return redirect("view_jobs")
     return render(request, "add_job.html")
-
 
 #creates a new job record in DB
 def create_job_record(job_id,name,description,company,created_by,posted_date):
@@ -715,21 +667,17 @@ def view_jobs(request):
 @login_required
 def apply_job(request, job_id):
     if request.method == "POST" and request.session.get('user_type') == 'student':
-        # Get the student associated with the logged-in session
+        #get the student associated with the logged-in session
         student = get_object_or_404(Student, email=request.session.get('user_email'))
-        
-        # Get the job using the provided `job_id`
+        #get the job using the provided `job_id`
         job = get_object_or_404(Job, job_id=job_id)
-
-        # Check if the student has already applied for the job
+        #check if the student has already applied for the job
         if JobApplications.objects.filter(student=student, job=job).exists():
             return JsonResponse({"message": "You have already applied for this job!"}, status=400)
-
-        # Create the job application
+        #create the job application
         JobApplications.objects.create(student=student, job=job)
         return JsonResponse({"message": "Successfully applied to the job!"}, status=200)
-    
-    # Return unauthorized access for invalid requests
+    #return unauthorized access for invalid requests
     return JsonResponse({"message": "Unauthorized access"}, status=403)
 
 # EVENT
@@ -774,7 +722,7 @@ def update_event_record(event_id,title,description,date,location):
     
 @login_required
 def update_event(request, event_id):
-    # Get the event by ID
+    #event by ID
     event = get_object_or_404(Event, event_id=event_id)
     if request.method == "POST":
         #update the event with POST data
@@ -821,7 +769,7 @@ def delete_event(request, event_id):
 
 @login_required
 def dashboard(request):
-    user_type = request.session.get('user_type')  # Determine the user type from the session
+    user_type = request.session.get('user_type')
     if user_type == 'student':
         return redirect('student_dashboard')
     elif user_type == 'company':
@@ -841,7 +789,6 @@ def add_notice(request):
         announcement_text = request.POST.get("announcement_text")
         created_by_id = request.POST.get("created_by_id")
         recipient_id = request.POST.get("recipient_id")
-
         try:
             created_by = Admin.objects.get(pk=created_by_id)
             recipient = Student.objects.get(pk=recipient_id)
@@ -860,10 +807,8 @@ def add_notice(request):
             messages.error(request, "Invalid student ID.")
         except Exception as e:
             messages.error(request, f"An error occurred: {str(e)}")
-
-    # Pass admins and students to the template
+    #pass admins and students to the template
     return render(request, 'add_notice.html', {'admins': admins, 'students': students})
-
 
 @login_required
 def view_notices(request):
@@ -871,7 +816,6 @@ def view_notices(request):
     user_type = request.session.get('user_type', None)
     can_manage_notices = user_type == 'admin'
     return render(request, 'view_notices.html', {'notices': notices, 'can_manage_notices': can_manage_notices})
-
 
 #fetches all notice details as a list of lists
 def fetch_all_notices():
@@ -900,7 +844,6 @@ def update_notice(request, notice_id):
     notice = get_object_or_404(Notice, pk=notice_id)
     if request.method == "POST":
         notice.announcement_text = request.POST.get("announcement_text")
-        # notice.description = request.POST.get("description")
         notice.save()
         messages.success(request, "Notice updated successfully!")
         return redirect("view_notices")
@@ -927,7 +870,7 @@ def view_particular_notice(notice_id):
 #APPLICANTS
 @login_required
 def view_applicants(request):
-    # Check if the logged-in user's email is associated with a company
+    #checking if the logged-in user's email is associated with a company
     user_email = request.session.get('user_email')
     company = Company.objects.filter(email=user_email).first()
 
@@ -935,15 +878,12 @@ def view_applicants(request):
         return render(request, 'error.html', {
             'message': "You are not associated with any company. Please contact support."
         })
-
-    # Fetch jobs and internships related to this company
+    #fetch jobs and internships related to this company
     jobs = Job.objects.filter(company=company)
     internships = Internship.objects.filter(company=company)
-
-    # Get applicants for jobs and internships
+    #get applicants for jobs and internships
     job_applicants = JobApplications.objects.filter(job__in=jobs)
     internship_applicants = InternshipApplications.objects.filter(internship__in=internships)
-
     return render(request, 'view_applicants.html', {
         'job_applicants': job_applicants,
         'internship_applicants': internship_applicants,

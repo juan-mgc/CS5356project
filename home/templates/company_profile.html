@@ -77,11 +77,11 @@
 
 <script>
   function enableEditMode() {
-    // Enable all input fields
+    //enable all input fields
     const inputs = document.querySelectorAll('#profileForm input');
     inputs.forEach(input => input.removeAttribute('readonly'));
 
-    // Hide the Update button and show the Save button
+    //hide the Update button and show the Save button
     document.getElementById('updateButton').style.display = 'none';
     document.getElementById('saveButton').style.display = 'inline-block';
   }

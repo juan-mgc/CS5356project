@@ -1,9 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
-from datetime import * # Import the date class
+from datetime import * #date class
 
-
-# Create your models here.
 class Student(models.Model):
     student_id = models.IntegerField(primary_key=True)  #custom primary key
     full_name = models.CharField(max_length=100)
@@ -15,10 +13,8 @@ class Student(models.Model):
     department = models.CharField(max_length=100)
     cgpa = models.DecimalField(max_digits=4, decimal_places=2)
     password = models.CharField(max_length=100)
-
     def __str__(self):
         return self.full_name
-
 
 class Company(models.Model):
     company_id = models.IntegerField(primary_key=True)
@@ -31,10 +27,8 @@ class Company(models.Model):
     country = models.CharField(max_length=255)
     pincode = models.CharField(max_length=10)
     password = models.CharField(max_length=100)
-
     def __str__(self):
         return self.company_name
-
 
 class Admin(models.Model):
     full_name = models.CharField(max_length=100)
@@ -43,10 +37,8 @@ class Admin(models.Model):
     age = models.PositiveIntegerField()
     gender = models.CharField(max_length=50)
     password = models.CharField(max_length=100)
-
     def __str__(self):
         return self.full_name
-
 
 class Internship(models.Model):
     internship_id = models.CharField(max_length=25, primary_key=True)
@@ -80,7 +72,6 @@ class Internship(models.Model):
 
     def __str__(self):
         return f"{self.internship_role} at {self.company.company_name if self.company else 'Unknown'}"
-
 
 class InternshipApplications(models.Model):
     internship_application_id = models.AutoField(primary_key=True)
@@ -125,7 +116,7 @@ class Job(models.Model):
         Admin, on_delete=models.SET_NULL, null=True, blank=True, related_name="created_jobs"
     )
     def save(self, *args, **kwargs):
-        if not self.job_id:  # Auto-generate job_id if not provided
+        if not self.job_id:  #auto-generate job_id if not provided
             self.job_id = f"JOB-{self.company_id}-{int(date.today().strftime('%Y%m%d%H%M%S'))}"
         super().save(*args, **kwargs)
     def __str__(self):
@@ -148,7 +139,6 @@ class JobApplications(models.Model):
 
     def __str__(self):
         return f"{self.student.full_name} applied for {self.job.job_role}"
-
 
 class Notice(models.Model):
     notice_id = models.AutoField(primary_key=True)

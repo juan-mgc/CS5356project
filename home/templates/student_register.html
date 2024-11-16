@@ -10,10 +10,10 @@
     if (password != confirmPassword) {
       //errorMessage.style.display = "block";  
       alert("Password do not match!");
-      return false;  // Prevent form submission
+      return false;
     }
     //errorMessage.style.display = "none"; 
-    return true;  // Allow form submission
+    return true;
   }
 </script>
 <style>
@@ -39,7 +39,6 @@
     input.form-control-lg {
         font-size: 14px; /* Decrease input text size */
     }
-
     button{
         width:00px;
     }
@@ -51,7 +50,6 @@
         margin-left: 10px; /* Optional: adjust space between radio and label */
         border-color: red;
     }
-
     .form-check-label {
         font-size: 0.75em; /* Adjust the label font size */
         color: rgba(100, 100, 100, 0.4);
@@ -60,8 +58,6 @@
         background-color: blue; /* Background color when checked */
         border-color: blue; /* Change border color when checked */
     }
- 
-
 
 </style>
 <body>
@@ -79,48 +75,45 @@
             <form method="post" action="{% url 'student_register' %}">
                 {% csrf_token %}
 
-                <!-- Full Name input -->
-                <input  type="text" id="form3Example3" class="form-control form-control-lg"
-                  placeholder="Enter full name" name="full_name" required/>
+              <!-- Full Name input -->
+              <input  type="text" id="form3Example3" class="form-control form-control-lg"
+                placeholder="Enter full name" name="full_name" required/>
 
               <!-- Email input -->
-                <input style="margin-top:10px" type="email" id="form3Example3" class="form-control form-control-lg"
-                  placeholder="Enter email address" name="email" required/>
+              <input style="margin-top:10px" type="email" id="form3Example3" class="form-control form-control-lg"
+                placeholder="Enter email address" name="email" required/>
 
 
               <input style="margin-top:8px" type="text" id="form3Example3" class="form-control form-control-lg"
-                  placeholder="Enter contact number" name="contact_number" required/>
+                placeholder="Enter contact number" name="contact_number" required/>
 
               <!-- DOB input -->
-                <input style="margin-top:8px" type="text" id="form3Example3" class="form-control form-control-lg"
-                  placeholder="Enter date of birth yyyy-mm-dd" name="dob" required/>
+              <input style="margin-top:8px" type="text" id="form3Example3" class="form-control form-control-lg"
+                placeholder="Enter date of birth yyyy-mm-dd" name="dob" required/>
 
-                  <!-- gender -->
-               <input style="margin-top:8px" type="text" id="form3Example3" class="form-control form-control-lg"
-                  placeholder="Enter gender" name="gender" required/>
+              <!-- gender -->
+              <input style="margin-top:8px" type="text" id="form3Example3" class="form-control form-control-lg"
+                placeholder="Enter gender" name="gender" required/>
 
               <!-- R-Number input -->
-                <input style="margin-top:8px" type="text" id="form3Example3" class="form-control form-control-lg"
-                  placeholder="Enter r-number" name="r_number" required/>
+              <input style="margin-top:8px" type="text" id="form3Example3" class="form-control form-control-lg"
+                placeholder="Enter r-number" name="r_number" required/>
 
               <!-- Department input -->
-                <input style="margin-top:8px" type="text" id="form3Example3" class="form-control form-control-lg"
-                  placeholder="Enter department" name="department" required/>
+              <input style="margin-top:8px" type="text" id="form3Example3" class="form-control form-control-lg"
+                placeholder="Enter department" name="department" required/>
 
               <!-- GPA input -->
-                <input style="margin-top:8px" type="text" id="form3Example3" class="form-control form-control-lg"
-                  placeholder="Enter cgpa" name="cgpa"/>
+              <input style="margin-top:8px" type="text" id="form3Example3" class="form-control form-control-lg"
+                placeholder="Enter cgpa" name="cgpa"/>
 
               <!-- Password input -->
-                <input style="margin-top:8px" type="password" id="password" class="form-control form-control-lg"
-                  placeholder="Enter password" name="password" required/>
+              <input style="margin-top:8px" type="password" id="password" class="form-control form-control-lg"
+                placeholder="Enter password" name="password" required/>
 
               <!-- Confirm Password input -->
-                <input style="margin-top:8px" type="password" id="confirm_password" class="form-control form-control-lg"
-                  placeholder="Confirm password" name="confirm_password" required/>
-
-
-
+              <input style="margin-top:8px" type="password" id="confirm_password" class="form-control form-control-lg"
+                placeholder="Confirm password" name="confirm_password" required/>
 
               <!-- Submit Buttons -->
               <div class="text-center text-lg-start mt-4 pt-2">
@@ -131,7 +124,6 @@
                     style="padding-left: 2.5rem; padding-right: 2.5rem; font-size: 12px; width:150px; margin-bottom: 10px;">Go Back!</button>
                 </a>
               </div>
-
             </form>
           </div>
         </div>
