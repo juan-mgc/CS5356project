@@ -75,8 +75,6 @@
                 <!-- Search and Actions -->
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="search-container">
-                        {% comment %} <input type="text" class="form-control search-bar" placeholder="Search by Internship Role">
-                        <input type="text" class="form-control search-bar" placeholder="Search by Type"> {% endcomment %}
                     </div>
                     <div class="button-container">
                         {% if can_manage_internships %}
@@ -104,6 +102,7 @@
                                 <th>Stipend</th>
                                 <th>Start Date</th>
                                 <th>Last Date to Apply</th>
+                                <th>Company</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -114,11 +113,18 @@
                                 <td>{{ internship.internship_role }}</td>
                                 <td>{{ internship.description }}</td>
                                 <td>{{ internship.duration_months }}</td>
-                                <td>{{ internship.internship_type }}</td>
-                                <td>{{ internship.location }}</td>
+                                <td>{{ internship.get_internship_type_display }}</td>
+                                <td>{{ internship.get_location_display }}</td>
                                 <td>{{ internship.stipend }}</td>
                                 <td>{{ internship.start_date }}</td>
                                 <td>{{ internship.last_date_to_apply }}</td>
+                                <td>
+                                    {% if internship.company %}
+                                        {{ internship.company.company_name }}
+                                    {% else %}
+                                        Unknown
+                                    {% endif %}
+                                </td>
                                 <td class="actions-container">
                                     {% if user_type == 'admin' or internship.is_owner %}
                                         <a href="{% url 'update_internship' internship.internship_id %}" class="btn btn-warning btn-custom">Edit</a>
@@ -130,6 +136,8 @@
                                     {% elif is_student %}
                                         {% if internship.student_applied %}
                                             <button class="btn btn-secondary btn-custom" disabled>Applied</button>
+                                        {% elif internship.is_expired %}
+                                            <button class="btn btn-secondary btn-custom" disabled>Expired</button>
                                         {% else %}
                                             <button 
                                                 class="btn btn-success btn-custom" 

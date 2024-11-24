@@ -351,8 +351,23 @@ def fetch_all_companies():
 def company_dashboard(request):
     return render(request, 'company_dashboard.html')
 
+@login_required
 def company_profile(request):
-    return render(request, 'company_profile.html')
+    if request.session.get('user_type') != 'company':
+        return redirect('login')
+
+    company = Company.objects.filter(email=request.session.get('user_email')).first()
+    if request.method == "POST":
+        company.company_name = request.POST.get("company_name")
+        company.contact_number = request.POST.get("contact_number")
+        company.street_number = request.POST.get("street_number")
+        company.city = request.POST.get("city")
+        company.state = request.POST.get("state")
+        company.country = request.POST.get("country")
+        company.pincode = request.POST.get("pincode")
+        company.save()
+        messages.success(request, "Profile updated successfully!")
+    return render(request, "company_profile.html", {"company": company})
 
 def view_companies(request):
     companies = Company.objects.all()
@@ -419,18 +434,19 @@ def create_internship_record(internship_id,role,description,duration,type,locati
     new_internship.save()
 
 #updates internship details in the database by ID
-def update_internship_record(internship_id,role,description,duration,type,location,stiphend,company,created_by,posted_date):
-    internship=Internship.objects.get(internship_id=internship_id)
-    internship.role=role
-    internship.description=description
-    internship.duration=duration
-    internship.type=type
-    internship.location=location
-    internship.stiphend=stiphend
-    internship.company=company
-    internship.created_by=created_by
-    internship.posted_date=posted_date
-    internship.save()
+# CRUD for backend internship record
+# def update_internship_record(internship_id,role,description,duration,type,location,stiphend,company,created_by,posted_date):
+#     internship=Internship.objects.get(internship_id=internship_id)
+#     internship.role=role
+#     internship.description=description
+#     internship.duration=duration
+#     internship.type=type
+#     internship.location=location
+#     internship.stiphend=stiphend
+#     internship.company=company
+#     internship.created_by=created_by
+#     internship.posted_date=posted_date
+#     internship.save()
     
 @login_required
 def update_internship(request, internship_id):
@@ -456,12 +472,19 @@ def view_internships(request):
         student = Student.objects.filter(email=request.session.get('user_email')).first()
     elif request.session.get('user_type') == 'company':
         company_user = Company.objects.filter(email=request.session.get('user_email')).first()
+    # apply button wont be available if due date for application was in the past
+    today = date.today()
     internships = Internship.objects.annotate(
         student_applied=Exists(
             InternshipApplications.objects.filter(internship=OuterRef('pk'), student=student)
         ),
         is_owner=Case(
             When(company=company_user, then=Value(True)),
+            default=Value(False),
+            output_field=BooleanField()
+        ),
+        is_expired=Case(
+            When(last_date_to_apply__lt=today, then=Value(True)),
             default=Value(False),
             output_field=BooleanField()
         )
@@ -643,6 +666,7 @@ def view_jobs(request):
         student = Student.objects.filter(email=request.session.get('user_email')).first()
     elif request.session.get('user_type') == 'company':
         company_user = Company.objects.filter(email=request.session.get('user_email')).first()
+    today = date.today()
     jobs = Job.objects.annotate(
         student_applied=Exists(
             JobApplications.objects.filter(job=OuterRef('pk'), student=student)
@@ -651,18 +675,19 @@ def view_jobs(request):
             When(company=company_user, then=Value(True)),
             default=Value(False),
             output_field=BooleanField()
+        ),
+        is_expired=Case(
+            When(last_date_to_apply__lt=today, then=Value(True)),
+            default=Value(False),
+            output_field=BooleanField()
         )
     )
-    return render(
-        request,
-        'view_jobs.html',
-        {
-            'jobs': jobs,
-            'can_manage_jobs': request.session.get('user_type') == 'admin',
-            'is_student': request.session.get('user_type') == 'student',
-            'user_type': request.session.get('user_type')
-        }
-    )
+    return render(request, 'view_jobs.html', {
+        'jobs': jobs,
+        'can_manage_jobs': request.session.get('user_type') == 'admin',
+        'is_student': request.session.get('user_type') == 'student',
+        'user_type': request.session.get('user_type')
+    })
 
 @login_required
 def apply_job(request, job_id):

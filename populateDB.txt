@@ -12,7 +12,7 @@ dummy_students = [
         "r_number": "R001",
         "department": "Computer Science",
         "cgpa": "3.8",
-        "password": "password1"
+        "password": "pass"
     },
     {
         "student_id": 3,

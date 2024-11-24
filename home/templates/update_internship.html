@@ -1,7 +1,6 @@
 {% load static %}
 <html>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;1000&display=swap');
     * {
@@ -10,103 +9,116 @@
         font-family: 'Nunito', sans-serif;
         box-sizing: border-box;
     }
-    body {
-        background-color: #f4f8ff; /* Light blue background */
+    input::placeholder {
+        font-size: 12px;
+        color: rgba(100, 100, 100, 0.3);
+    }
+    input.form-control-lg, textarea.form-control-lg {
+        font-size: 14px;
+    }
+    .form-check-label {
+        font-size: 0.75em;
+        color: rgba(100, 100, 100, 0.4);
     }
     .form-container {
-        margin-top: 50px;
-        padding: 20px;
-        max-width: 600px; /* Sets a maximum width to make the form narrower */
-        background-color: #ffffff;
+        border: 1px solid #ccc;
         border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        margin-left: auto;
-        margin-right: auto;
+        padding: 20px;
+        margin-top: 20px;
+        background-color: #fff;
+        max-height: 85vh;
+        overflow-y: auto;
     }
-    .form-header {
-        color: #007bff;
-        font-size: 28px;
-        margin-bottom: 20px;
-        text-align: center;
+    /* removing arrows from number inputs */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
-    .btn-custom {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        width: 100%;
-    }
-    .btn-custom:hover {
-        background-color: #0056b3;
-    }
-    .button-group .btn-custom {
-        margin-right: 10px; /* Adjust to desired space */
+    input[type="number"] {
+        -moz-appearance: textfield; /* fixing styling for Firefox */
     }
 </style>
-
 <body>
-    <div class="container form-container">
-        <h2 class="form-header">Update Internship</h2>
-        <form method="POST" action="{% url 'update_internship' internship.internship_id %}">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="internship_id">Internship ID</label>
-                <input type="text" class="form-control" id="internship_id" name="internship_id" value="{{ internship.internship_id }}" readonly>
-            </div>
-    
-            <div class="form-group">
-                <label for="role">Internship Role</label>
-                <input type="text" class="form-control" id="role" name="internship_role" value="{{ internship.internship_role }}" required>
-            </div>
-    
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea class="form-control" id="description" name="description" rows="4" required>{{ internship.description }}</textarea>
-            </div>
-    
-            <div class="form-group">
-                <label for="duration">Duration (Months)</label>
-                <input type="number" class="form-control" id="duration" name="duration_months" value="{{ internship.duration_months }}" required>
-            </div>
-    
-            <div class="form-group">
-                <label for="type">Type</label>
-                <select class="form-control" id="type" name="internship_type" required>
-                    <option value="full_time" {% if internship.internship_type == "full_time" %}selected{% endif %}>Full-time</option>
-                    <option value="part_time" {% if internship.internship_type == "part_time" %}selected{% endif %}>Part-time</option>
-                </select>
-            </div>
-    
-            <div class="form-group">
-                <label for="location">Location</label>
-                <select class="form-control" id="location" name="location" required>
-                    <option value="remote" {% if internship.location == "remote" %}selected{% endif %}>Remote</option>
-                    <option value="hybrid" {% if internship.location == "hybrid" %}selected{% endif %}>Hybrid</option>
-                    <option value="in_office" {% if internship.location == "in_office" %}selected{% endif %}>In Office</option>
-                </select>
+  <section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <!-- Image Section -->
+            <div class="col-md-9 col-lg-6 col-xl-5">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+                     class="img-fluid" alt="Sample image">
             </div>
 
-            <div class="form-group">
-                <label for="stipend">Stipend</label>
-                <input type="number" class="form-control" id="stipend" name="stipend" value="{{ internship.stipend }}" required>
-            </div>
+            <!-- Form Section -->
+            <div style="margin-top:10px;" class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 form-container">
+                <form method="post" action="{% url 'update_internship' internship.internship_id %}">
+                    {% csrf_token %}
+                    <div class="text-center">
+                        <h2>Update Internship</h2>
+                        <p>Update the details below</p>
 
-            <div class="form-group">
-                <label for="start_date">Start Date</label>
-                <input type="date" class="form-control" id="start_date" name="start_date" value="{{ internship.start_date|date:'Y-m-d' }}" required>
-            </div>
+                        <!-- Internship Role input -->
+                        <input style="margin-top:10px" type="text" class="form-control form-control-lg" placeholder="Enter Internship Role" name="internship_role" value="{{ internship.internship_role }}" required />
 
-            <div class="form-group">
-                <label for="last_date_to_apply">Last Date to Apply</label>
-                <input type="date" class="form-control" id="last_date_to_apply" name="last_date_to_apply" value="{{ internship.last_date_to_apply|date:'Y-m-d' }}" required>
-            </div>
+                        <!-- Internship Description input -->
+                        <textarea style="margin-top:8px" class="form-control form-control-lg" placeholder="Enter Description" name="description" required>{{ internship.description }}</textarea>
 
-            <div class="button-group d-flex justify-content-between">
-                <!-- Save Changes Button -->
-                <button type="submit" class="btn btn-primary btn-custom">Save Changes</button>
-                <!-- Go Back Button -->
-                <a href="{% url 'view_internships' %}" class="btn btn-secondary btn-custom">Go Back</a>
+                        <!-- Duration (Months) -->
+                        <label for="duration_months" style="margin-top:8px;">Duration (Months):</label>
+                        <input type="number" class="form-control form-control-lg" name="duration_months" value="{{ internship.duration_months }}" required />
+
+                        <!-- Internship Type selection -->
+                        <div style="margin-top:8px">
+                            <label>Internship Type:</label><br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="internship_type" id="full_time" value="full_time" {% if internship.internship_type == 'full_time' %}checked{% endif %} required />
+                                <label class="form-check-label" for="full_time">Full Time</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="internship_type" id="part_time" value="part_time" {% if internship.internship_type == 'part_time' %}checked{% endif %} required />
+                                <label class="form-check-label" for="part_time">Part Time</label>
+                            </div>
+                        </div>
+
+                        <!-- Internship Location selection -->
+                        <div style="margin-top:8px">
+                            <label>Location:</label><br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="location" id="remote" value="remote" {% if internship.location == 'remote' %}checked{% endif %} required />
+                                <label class="form-check-label" for="remote">Remote</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="location" id="in_office" value="in_office" {% if internship.location == 'in_office' %}checked{% endif %} required />
+                                <label class="form-check-label" for="in_office">In Office</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="location" id="hybrid" value="hybrid" {% if internship.location == 'hybrid' %}checked{% endif %} required />
+                                <label class="form-check-label" for="hybrid">Hybrid</label>
+                            </div>
+                        </div>
+
+                        <!-- Stipend input -->
+                        <label for="stipend" style="margin-top:8px;">Stipend:</label>
+                        <input style="margin-top:8px" type="number" class="form-control form-control-lg" placeholder="Enter Stipend" name="stipend" value="{{ internship.stipend }}" required />
+
+                        <!-- Start Date input -->
+                        <label for="start_date" style="margin-top:8px;">Start Date:</label>
+                        <input type="date" class="form-control form-control-lg" name="start_date" value="{{ internship.start_date|date:'Y-m-d' }}" required />
+
+                        <!-- Last Date to Apply input -->
+                        <label for="last_date_to_apply" style="margin-top:8px;">Last Date to Apply:</label>
+                        <input type="date" class="form-control form-control-lg" name="last_date_to_apply" value="{{ internship.last_date_to_apply|date:'Y-m-d' }}" required />
+
+                        <!-- Submit Buttons -->
+                        <div class="text-center text-lg-start mt-4 pt-2">
+                            <button type="submit" class="btn btn-primary btn-lg" style="width: 150px;">Update</button>
+                            <button type="button" class="btn btn-secondary btn-lg" style="width: 150px;" onclick="window.history.back();">Cancel</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
+  </section>
 </body>
 </html>

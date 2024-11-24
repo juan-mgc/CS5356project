@@ -25,34 +25,33 @@
 
       <div style="margin-top:10px;" class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
         <h2 class="text-center mb-4">Company Profile</h2>
-
-        <!-- Profile Details Display -->
+        <!-- Profile dtails display -->
         <form id="profileForm" method="POST">
           {% csrf_token %}
 
           <!-- Company Name -->
-          <input type="text" class="form-control form-control-lg" id="companyName" name="company_name" value="Tech Solutions Inc." readonly />
+          <input type="text" class="form-control form-control-lg" id="companyName" name="company_name" value="{{ company.company_name }}" readonly />
 
           <!-- Email -->
-          <input type="email" style="margin-top:10px" class="form-control form-control-lg" id="email" name="email" value="info@techsolutions.com" readonly />
+          <input type="email" style="margin-top:10px" class="form-control form-control-lg" id="email" name="email" value="{{ company.email }}" readonly />
 
           <!-- Contact Number -->
-          <input type="text" style="margin-top:8px" class="form-control form-control-lg" id="contactNumber" name="contact_number" value="+1234567890" readonly />
+          <input type="text" style="margin-top:8px" class="form-control form-control-lg" id="contactNumber" name="contact_number" value="{{ company.contact_number }}" readonly />
 
           <!-- Street Number -->
-          <input type="text" style="margin-top:8px" class="form-control form-control-lg" id="streetNumber" name="street_number" value="123" readonly />
+          <input type="text" style="margin-top:8px" class="form-control form-control-lg" id="streetNumber" name="street_number" value="{{ company.street_number }}" readonly />
 
           <!-- City -->
-          <input type="text" style="margin-top:8px" class="form-control form-control-lg" id="city" name="city" value="San Francisco" readonly />
+          <input type="text" style="margin-top:8px" class="form-control form-control-lg" id="city" name="city" value="{{ company.city }}" readonly />
 
           <!-- State -->
-          <input type="text" style="margin-top:8px" class="form-control form-control-lg" id="state" name="state" value="California" readonly />
+          <input type="text" style="margin-top:8px" class="form-control form-control-lg" id="state" name="state" value="{{ company.state }}" readonly />
 
           <!-- Country -->
-          <input type="text" style="margin-top:8px" class="form-control form-control-lg" id="country" name="country" value="USA" readonly />
+          <input type="text" style="margin-top:8px" class="form-control form-control-lg" id="country" name="country" value="{{ company.country }}" readonly />
 
           <!-- Pincode -->
-          <input type="text" style="margin-top:8px" class="form-control form-control-lg" id="pincode" name="pincode" value="94107" readonly />
+          <input type="text" style="margin-top:8px" class="form-control form-control-lg" id="pincode" name="pincode" value="{{ company.pincode }}" readonly />
 
           <!-- Buttons -->
           <div class="text-center mt-4 pt-2">

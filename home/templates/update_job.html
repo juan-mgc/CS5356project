@@ -29,6 +29,15 @@
         max-height: 85vh;
         overflow-y: auto;
     }
+    /* removing arrows from number inputs */
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type="number"] {
+        -moz-appearance: textfield; /* fixing styling for Firefox */
+    }
 </style>
 <body>
   <section class="vh-100">
@@ -83,15 +92,18 @@
                         </div>
 
                         <!-- Salary input -->
+                        <label for="salary" style="margin-top:8px;">Salary:</label>
                         <input style="margin-top:8px" type="number" class="form-control form-control-lg" placeholder="Enter Salary" name="salary" value="{{ job.salary }}" required />
 
                         <!-- Start Date input -->
                         <label for="start_date" style="margin-top:8px;">Start Date:</label>
-                        <input type="date" class="form-control form-control-lg" name="start_date" value="{{ job.start_date }}" required />
+                        <input type="date" class="form-control form-control-lg" name="start_date" 
+                            value="{{ job.start_date|date:'Y-m-d' }}" required />
 
                         <!-- Last Date to Apply input -->
                         <label for="last_date_to_apply" style="margin-top:8px;">Last Date to Apply:</label>
-                        <input type="date" class="form-control form-control-lg" name="last_date_to_apply" value="{{ job.last_date_to_apply }}" required />
+                        <input type="date" class="form-control form-control-lg" name="last_date_to_apply" 
+                            value="{{ job.last_date_to_apply|date:'Y-m-d' }}" required />
 
                         <!-- Submit Buttons -->
                         <div class="text-center text-lg-start mt-4 pt-2">

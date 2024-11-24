@@ -99,7 +99,7 @@
                                 <th>Role</th>
                                 <th>Applicant</th>
                                 <th>Date Applied</th>
-                                <th>Status</th>
+                                {% comment %} <th>Status</th> {% endcomment %}
                             </tr>
                         </thead>
                         <tbody>
@@ -110,14 +110,14 @@
                                 <td>{{ applicant.job.job_role }}</td>
                                 <td>{{ applicant.student.full_name }}</td>
                                 <td>{{ applicant.date_of_applied }}</td>
-                                <td>{{ applicant.status }}</td>
+                                {% comment %} <td>{{ applicant.status }}</td> {% endcomment %}
                             </tr>
                             {% empty %}
                             <tr>
                                 <td colspan="5">No job applications available.</td>
                             </tr>
                             {% endfor %}
-                    
+
                             <!-- Internship Applicants -->
                             {% for applicant in internship_applicants %}
                             <tr>
@@ -125,7 +125,7 @@
                                 <td>{{ applicant.internship.internship_role }}</td>
                                 <td>{{ applicant.student.full_name }}</td>
                                 <td>{{ applicant.date_of_applied }}</td>
-                                <td>{{ applicant.status }}</td>
+                                {% comment %} <td>{{ applicant.status }}</td> {% endcomment %}
                             </tr>
                             {% empty %}
                             <tr>
