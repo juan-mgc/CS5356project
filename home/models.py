@@ -112,6 +112,7 @@ class Job(models.Model):
     company = models.ForeignKey(
         Company, on_delete=models.CASCADE, related_name="jobs", null=True, blank=True
     )
+    
     created_by = models.ForeignKey(
         Admin, on_delete=models.SET_NULL, null=True, blank=True, related_name="created_jobs"
     )

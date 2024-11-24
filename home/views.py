@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseBadRequest
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -468,11 +468,12 @@ def update_internship(request, internship_id):
 def view_internships(request):
     student = None
     company_user = None
+    user_email = request.session.get('user_email')
     if request.session.get('user_type') == 'student':
-        student = Student.objects.filter(email=request.session.get('user_email')).first()
+        student = Student.objects.filter(email=user_email).first()
     elif request.session.get('user_type') == 'company':
-        company_user = Company.objects.filter(email=request.session.get('user_email')).first()
-    # apply button wont be available if due date for application was in the past
+        company_user = Company.objects.filter(email=user_email).first()
+
     today = date.today()
     internships = Internship.objects.annotate(
         student_applied=Exists(
@@ -488,12 +489,13 @@ def view_internships(request):
             default=Value(False),
             output_field=BooleanField()
         )
-    )
+    ).prefetch_related('internship_applications')
     return render(request, 'view_internships.html', {
         'internships': internships,
         'can_manage_internships': request.session.get('user_type') == 'admin',
         'is_student': request.session.get('user_type') == 'student',
-        'user_type': request.session.get('user_type')
+        'user_type': request.session.get('user_type'),
+        'user_email': user_email
     })
 
 @login_required
@@ -662,12 +664,15 @@ def fetch_all_jobs():
 def view_jobs(request):
     student = None
     company_user = None
+    user_email = request.session.get('user_email')
+    #identify whether the user is a student or a company
     if request.session.get('user_type') == 'student':
-        student = Student.objects.filter(email=request.session.get('user_email')).first()
+        student = Student.objects.filter(email=user_email).first()
     elif request.session.get('user_type') == 'company':
-        company_user = Company.objects.filter(email=request.session.get('user_email')).first()
+        company_user = Company.objects.filter(email=user_email).first()
+    
     today = date.today()
-    jobs = Job.objects.annotate(
+    jobs = Job.objects.prefetch_related('job_applications__student').annotate(
         student_applied=Exists(
             JobApplications.objects.filter(job=OuterRef('pk'), student=student)
         ),
@@ -686,7 +691,8 @@ def view_jobs(request):
         'jobs': jobs,
         'can_manage_jobs': request.session.get('user_type') == 'admin',
         'is_student': request.session.get('user_type') == 'student',
-        'user_type': request.session.get('user_type')
+        'user_type': request.session.get('user_type'),
+        'user_email': user_email  # Pass the user's email to the template
     })
 
 @login_required
@@ -895,20 +901,32 @@ def view_particular_notice(notice_id):
 #APPLICANTS
 @login_required
 def view_applicants(request):
-    #checking if the logged-in user's email is associated with a company
     user_email = request.session.get('user_email')
     company = Company.objects.filter(email=user_email).first()
-
     if not company:
         return render(request, 'error.html', {
             'message': "You are not associated with any company. Please contact support."
         })
-    #fetch jobs and internships related to this company
     jobs = Job.objects.filter(company=company)
     internships = Internship.objects.filter(company=company)
-    #get applicants for jobs and internships
     job_applicants = JobApplications.objects.filter(job__in=jobs)
     internship_applicants = InternshipApplications.objects.filter(internship__in=internships)
+    if request.method == "POST":
+        #processing status update
+        application_id = request.POST.get("application_id")
+        application_type = request.POST.get("application_type")
+        new_status = request.POST.get("status")
+        #application type and process
+        if application_type == "job":
+            application = get_object_or_404(JobApplications, pk=application_id, job__company=company)
+        elif application_type == "internship":
+            application = get_object_or_404(InternshipApplications, pk=application_id, internship__company=company)
+        else:
+            return HttpResponseBadRequest("Invalid application type.")
+        #updating the status
+        application.status = new_status
+        application.save()
+        return redirect("view_applicants")
     return render(request, 'view_applicants.html', {
         'job_applicants': job_applicants,
         'internship_applicants': internship_applicants,

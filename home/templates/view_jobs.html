@@ -129,7 +129,13 @@
                                             </button>
                                         {% elif is_student %}
                                             {% if job.student_applied %}
-                                                <button class="btn btn-secondary btn-custom" disabled>Applied</button>
+                                                {% for application in job.job_applications.all %}
+                                                    {% if application.student.email == user_email %}
+                                                        <button class="btn btn-secondary btn-custom" disabled>{{ application.status }}</button>
+                                                    {% endif %}
+                                                {% empty %}
+                                                    <button class="btn btn-secondary btn-custom" disabled>No Applications</button>
+                                                {% endfor %}
                                             {% elif job.is_expired %}
                                                 <button class="btn btn-secondary btn-custom" disabled>Expired</button>
                                             {% else %}
@@ -138,7 +144,7 @@
                                                     onclick="showApplyModal('{{ job.job_id }}')">Apply</button>
                                             {% endif %}
                                         {% endif %}
-                                    </td>
+                                    </td>                                    
                                 </tr>
                                 {% empty %}
                                 <tr>
