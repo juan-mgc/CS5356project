@@ -41,14 +41,14 @@
             {% csrf_token %}
             <textarea name="announcement_text" class="form-control" placeholder="Enter announcement text" required></textarea>
             
-            <!-- Admin Selection -->
+            {% comment %} <!-- Admin Selection -->
             <label for="created_by_id">Select Admin:</label>
             <select name="created_by_id" class="form-control" required>
                 <option value="">Select Admin</option>
                 {% for admin in admins %}
                 <option value="{{ admin.id }}">{{ admin.full_name }}</option>
                 {% endfor %}
-            </select>
+            </select> {% endcomment %}
         
             <!-- Student Selection -->
             <label for="recipient_id">Select Student:</label>

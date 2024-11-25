@@ -492,7 +492,7 @@ def view_internships(request):
     ).prefetch_related('internship_applications')
     return render(request, 'view_internships.html', {
         'internships': internships,
-        'can_manage_internships': request.session.get('user_type') == 'admin',
+        'can_manage_internships': request.session.get('user_type') == 'company',
         'is_student': request.session.get('user_type') == 'student',
         'user_type': request.session.get('user_type'),
         'user_email': user_email
@@ -689,7 +689,7 @@ def view_jobs(request):
     )
     return render(request, 'view_jobs.html', {
         'jobs': jobs,
-        'can_manage_jobs': request.session.get('user_type') == 'admin',
+        'can_manage_jobs': request.session.get('user_type') == 'company',
         'is_student': request.session.get('user_type') == 'student',
         'user_type': request.session.get('user_type'),
         'user_email': user_email  # Pass the user's email to the template
@@ -845,7 +845,7 @@ def add_notice(request):
 def view_notices(request):
     notices = Notice.objects.all()
     user_type = request.session.get('user_type', None)
-    can_manage_notices = user_type == 'admin'
+    can_manage_notices = user_type == 'company'
     return render(request, 'view_notices.html', {'notices': notices, 'can_manage_notices': can_manage_notices})
 
 #fetches all notice details as a list of lists
