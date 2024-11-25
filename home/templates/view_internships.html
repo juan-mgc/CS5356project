@@ -126,7 +126,8 @@
                                     {% endif %}
                                 </td>
                                 <td class="actions-container">
-                                    {% if user_type == 'admin' or internship.is_owner %}
+                                    {% comment %} {% if user_type == 'admin' or internship.is_owner %} {% endcomment %}
+                                    {% if user_type == internship.is_owner %}
                                         <a href="{% url 'update_internship' internship.internship_id %}" class="btn btn-warning btn-custom">Edit</a>
                                         <button 
                                             class="btn btn-danger btn-custom" 
