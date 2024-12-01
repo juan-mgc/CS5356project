@@ -114,7 +114,8 @@
                                     <td>{{ student.full_name }}</td>
                                     <td>{{ student.email }}</td>
                                     <td>
-                                        <a >
+                                    
+                                            <a href="{% url 'view_particular_student' student.student_id %}" >
                                             <button class="btn btn-primary btn-custom">View</button>
                                         </a>
                                     </td>

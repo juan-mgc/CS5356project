@@ -199,18 +199,12 @@ def update_student_record(student_id,full_name,email,contact_number,date_of_birt
     #student.password=password
     student.save()
     
-def view_particular_student(student_id):
-    student=Student.objects.get(student_id=student_id)
-    lst=[]
-    lst.append(student.full_name)
-    lst.append(student.email)
-    lst.append(student.contact_number)
-    lst.append(student.date_of_birth)
-    lst.append(student.gender)
-    lst.append(student.r_number)
-    lst.append(student.department)
-    lst.append(student.cgpa)
-    return lst
+def view_particular_student(request, student_id):
+    student = get_object_or_404(Student, student_id=student_id)
+    context = {
+        'student': student
+    }
+    return render(request, 'view_particular_student.html', context)
 
 #fetch details of all studnets as a list of lists
 def fetch_all_students():
