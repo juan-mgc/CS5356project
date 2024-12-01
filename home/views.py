@@ -828,15 +828,15 @@ def add_notice(request):
     if request.method == "POST":
         announcement_text = request.POST.get("announcement_text")
         created_by_id = request.POST.get("created_by_id")
-        recipient_id = request.POST.get("recipient_id")
+        #recipient_id = request.POST.get("recipient_id")
         try:
             created_by = Admin.objects.get(pk=created_by_id)
-            recipient = Student.objects.get(pk=recipient_id)
+            #recipient = Student.objects.get(pk=recipient_id)
 
             notice = Notice(
                 announcement_text=announcement_text,
                 created_by=created_by,
-                recipient=recipient
+                #recipient=recipient
             )
             notice.save()
             messages.success(request, "Notice added successfully.")

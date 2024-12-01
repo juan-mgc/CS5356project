@@ -53,7 +53,7 @@
         </div>
 
         <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 form-container" style="margin-top:10px;">
-          <form method="post" action="{% url 'add_notice' %}">
+          <form method="post" action="{% url 'view_notices' %}">
             {% csrf_token %}
             <textarea name="announcement_text" class="form-control" placeholder="Enter announcement text" required></textarea>
             
@@ -66,7 +66,7 @@
                 {% endfor %}
             </select> {% endcomment %}
         
-            <!-- Student Selection -->
+            <!-- Student Selection 
             <label for="recipient_id">Select Student:</label>
             <select name="recipient_id" class="form-control" required>
                 <option value="">Select Student</option>
@@ -74,6 +74,7 @@
                 <option value="{{ student.student_id }}">{{ student.full_name }}</option>
                 {% endfor %}
             </select>
+            -->
         
             <div class="text-center mt-4">
               <button type="submit" class="btn btn-primary btn-new">Add Notice</button>
