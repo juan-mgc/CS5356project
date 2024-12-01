@@ -7,7 +7,7 @@
         * {
             margin: 0;
             padding: 0;
-            font-family: 'Nunito', sans-serif;
+            
             box-sizing: border-box;
         }
         body {
@@ -15,25 +15,38 @@
         }
         .btn-custom {
             font-size: 12px;
-            width: 100%;
+            width: 20%;
             margin-bottom: 10px;
-            background-color: #007bff; /* Light blue background for buttons */
+            background-color: navy;
+            color: white;
+            border: none;
+            margin-left: 850px;
+            margin-top: 30px;
+            border-radius: 5px;
+        }
+        .btn-save{
+            font-size: 12px;
+            width:100%;
+            
+            background-color: navy;
             color: white;
             border: none;
             border-radius: 5px;
         }
         .btn-custom:hover {
-            background-color: #0056b3; /* Darker shade on hover */
+            background-color: navy; /* Darker shade on hover */
         }
         .table-container {
             margin-top: 30px;
+            font-family:'Times New Roman'
+
         }
         table {
             width: 100%; /* Stretch the table to fill the container */
             table-layout: fixed;
         }
         thead {
-            background-color: #007bff; /* Light blue color */
+            background-color: navy; /* Light blue color */
             color: white;
         }
         th, td {
@@ -41,10 +54,12 @@
             text-align: center;
         }
         .header {
-            padding-top: 30px;
+            padding-top: 20px;
             text-align: center;
-            font-size: 30px;
-            color: #007bff; /* Light blue for the header */
+            font-size: 50px;
+            color: navy; /* Light blue for the header */
+            font-family:'Times New Roman';
+
         }
     </style>
 </head>
@@ -55,9 +70,11 @@
                 <div class="col-md-12 col-lg-10 col-xl-10">
                     <!-- Header -->
                     <div class="header">
-                        <h2>Career-X</h2>
-                        <p>Manage Applicants with Ease</p>
+                        <h><b>APPLICANTS</b></h>
                     </div>
+                    <a href="{% url 'dashboard' %}">
+                        <button class="btn btn-secondary btn-custom">Back to Dashboard</button>
+                    </a>
                     <!-- Applicants Table -->
                     <form method="POST" action="{% url 'view_applicants' %}">
                         {% csrf_token %}
@@ -94,7 +111,7 @@
                                         <td>
                                             <input type="hidden" name="application_type" value="job">
                                             <input type="hidden" name="application_id" value="{{ applicant.job_application_id }}">
-                                            <button type="submit" class="btn btn-primary">Save</button>
+                                            <button type="submit" class="btn btn-save">Save</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -137,7 +154,8 @@
                                         <td>
                                             <input type="hidden" name="application_type" value="internship">
                                             <input type="hidden" name="application_id" value="{{ applicant.internship_application_id }}">
-                                            <button type="submit" class="btn btn-primary">Save</button>
+                                            <button type="submit" class="btn btn-save">Save</button>
+                                            
                                             </form>
                                         </td>
                                     </tr>
@@ -150,9 +168,7 @@
                             </table>
                         </div>
                     </form>
-                    <div class="text-center mt-4">
-                        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
-                    </div>
+                
                 </div>
             </div>
         </div>

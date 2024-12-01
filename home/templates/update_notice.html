@@ -18,6 +18,16 @@
         font-size: 12px;
         width: 150px;
     }
+    .title {
+      font-size: 60px;
+      font-weight: bold;
+      color: navy;
+      font-family: 'Times New Roman';
+      margin: 50px 0 0 250px;
+      position: absolute;
+      top: 0;
+      left: 0;
+  }
     .form-container {
         border: 1px solid #ccc; /* Border color */
         border-radius: 8px; /* Rounded corners */
@@ -28,6 +38,7 @@
   </style>
 </head>
 <body>
+  <div class="title">Update Notice</div>
   <section class="vh-100">
     <div class="container-fluid h-custom">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -40,7 +51,7 @@
           <form method="post" action="{% url 'update_notice' notice.notice_id %}">
             {% csrf_token %}
             <div class="text-center">
-                <h2>Update Notice</h2>
+              
 
                 <!-- Notice Title input -->
                 <input type="text" class="form-control form-control-lg" placeholder="Enter Notice Title" 

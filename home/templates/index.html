@@ -42,6 +42,14 @@
         border-color: blue; /* Change border color when checked */
     }
  
+    .heading {
+        font-size: 70px;
+        font-weight: bold;
+        color: navy; /* Blue color */
+        text-align: center;
+        margin-top: 10px;
+        font-family : 'Times New Roman';
+    }
 
 
 </style>
@@ -54,11 +62,15 @@
             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
               class="img-fluid" alt="Sample image">
           </div>
-          
+
           <div class="text-center text-lg-start mt-4 pt-2">
-            <a href="{% url 'login' %}" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;margin-bottom: 10px;font-size: 12px;width:300px;">Login</a><br>
-            <a href="{% url 'student_register' %}" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;font-size: 12px;width:300px;margin-bottom: 10px;">Student Registration</a><br>
-            <a href="{% url 'company_register' %}" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;font-size: 12px;width:300px;">Company Registration</a><br>
+            <!-- Career-X Heading -->
+            <h1 class="heading">CAREER-X</h1>
+          <p> </p>
+          <div class="text-center text-lg-start mt-4 pt-2">
+            <a href="{% url 'login' %}" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;margin-bottom: 10px;background: navy;font-size: 12px;width:300px;">Login</a><br>
+            <a href="{% url 'student_register' %}" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;font-size: 12px;background: navy;width:300px;margin-bottom: 10px;">Student Registration</a><br>
+            <a href="{% url 'company_register' %}" class="btn btn-primary btn-lg" style="padding-left: 2.5rem; padding-right: 2.5rem;font-size: 12px;background: navy;width:300px;">Company Registration</a><br>
         </div>
 
             

@@ -22,23 +22,41 @@
     }
     button{
         width:00px;
+        
     }
+    .btn-new{
+      background: navy;
+    }
+
     .login-btn {
         font-size: 12px; /* Set desired font size */
+  
     }
     .form-check-input {
         transform: scale(0.6); /* Adjust the scale factor as needed */
         margin-left: 10px; /* Optional: adjust space between radio and label */
         border-color: red;
+        accent-color: black;
     }
     .form-check-label {
         font-size: 0.75em; /* Adjust the label font size */
-        color: rgba(100, 100, 100, 0.4);
+        color: black;
+        
     }
     .form-check-input:checked + .form-check-label::before {
         background-color: blue; /* Background color when checked */
         border-color: blue; /* Change border color when checked */
     }
+
+    .heading {
+      font-size: 50px;
+      font-family: 'Times New Roman';
+      font-weight: bold;
+      color: navy; /* Blue color */
+      text-align: left;
+      margin-top:px;
+      margin-left: 400px; /* Position the heading to the left */
+    }
 
 </style>
 <body>
@@ -46,6 +64,9 @@
       <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center h-100">
           <div class="col-md-9 col-lg-6 col-xl-5">
+            <div class="col-12">
+              <h1 class="heading">LOGIN</h1>
+            </div>
             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
               class="img-fluid" alt="Sample image">
           </div>
@@ -80,11 +101,11 @@
               <!-- submit Buttons -->
               <div class="text-center text-lg-start mt-4 pt-2">
                 <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
-                  style="padding-left: 2.5rem; padding-right: 2.5rem;margin-bottom: 10px;font-size: 12px;width:150px;margin-right:8px;">Let me In!</button>
+                  style="padding-left: 2.5rem; padding-right: 2.5rem;margin-bottom: 10px;background: navy;font-size: 12px;width:150px;margin-right:8px;">Login</button>
                   <a href="{% url 'index' %}"><button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
-                  style="padding-left: 2.5rem; padding-right: 2.5rem;font-size: 12px;width:150px;margin-bottom: 10px;">Go Back!</button></a>
+                  style="padding-left: 2.5rem; padding-right: 2.5rem;background: navy;font-size: 12px;width:150px;margin-bottom: 10px;">Cancel</button></a>
                   <a href="{% url 'password_reset' %}"><button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
-                  style="padding-left: 2.5rem; padding-right: 2.5rem;font-size: 12px;width:250px;">Can't Access Account?</button></a>
+                  style="padding-left: 2.5rem; padding-right: 2.5rem;background: navy;font-size: 12px;width:250px;">Can't Access Account?</button></a>
               </div>
 
             </form>

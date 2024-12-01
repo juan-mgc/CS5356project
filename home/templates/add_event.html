@@ -30,6 +30,11 @@
         margin-top: 20px;
         background-color: #fff;
     }
+    .btn-new{
+        background : navy;
+        font-size: 12px;
+    }
+
     .title {
         font-size: 60px;
         font-weight: bold;
@@ -42,22 +47,33 @@
     .content-wrapper {
         margin-top: 10px; /* Add space below the title */
     }
+    .heading {
+        font-size: 50px;
+        font-family: 'Times New Roman';
+        font-weight: bold;
+        color: navy; /* Blue color */
+        text-align: left;
+        margin-top:0px;
+        margin-left: 130px; /* Position the heading to the left */
+      }
+
 </style>
 <body>
-    <div class="title">Career-X</div>
+    
     <section class="vh-100">
         <div class="container-fluid h-custom">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-md-9 col-lg-6 col-xl-5">
+                    <div class="col-12">
+                        <h1 class="heading">ADD EVENT</h1>
+                      </div>
                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
                          class="img-fluid" alt="Sample image">
                 </div>
                 <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                     <form method="post" action="{% url 'add_event' %}">
                         {% csrf_token %}
-                        <div class="text-center">
-                            <h2>Add Event</h2>
-                        </div>
+                       
                         <!-- Event Title -->
                         <input type="text" class="form-control form-control-lg" placeholder="Enter Event Title" name="title" required />
                         <!-- Event Description -->
@@ -68,8 +84,8 @@
                         <input type="text" class="form-control form-control-lg" placeholder="Enter Location" name="location" required />
                         <!-- Submit Buttons -->
                         <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-primary">Add Event</button>
-                            <button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancel</button>
+                            <button type="submit" class="btn btn-primary btn-new">Add Event</button>
+                            <button type="button" class="btn btn-secondary btn-new" onclick="window.history.back();">Cancel</button>
                         </div>
                     </form>
                 </div>
