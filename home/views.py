@@ -109,8 +109,11 @@ def logout_view(request):
     return redirect('index')  #redirect to the index page
 
 # ADMIN
+@login_required
 def admin_dashboard(request):
-    return render(request, 'admin_dashboard.html')
+    admin = get_object_or_404(Admin, email=request.session.get('user_email'))
+    return render(request, 'admin_dashboard.html',{'admin':admin})
+
 
 #fetch a particular admin by ID
 def fetch_admin_details(admin_id):
@@ -231,9 +234,10 @@ def fetch_all_students():
 def delete_student(student_id):
     student=Student.objects.get(student_id=student_id)
     student.delete()
-
+@login_required
 def student_dashboard(request):
-    return render(request, 'student_dashboard.html')
+    student = get_object_or_404(Student, email=request.session.get('user_email'))
+    return render(request, 'student_dashboard.html', {'student': student})
 
 @login_required
 def view_student_profile(request):
@@ -347,9 +351,10 @@ def fetch_all_companies():
         lst.append(company.pincode)
         e.append(lst)
     return e
-
+@login_required
 def company_dashboard(request):
-    return render(request, 'company_dashboard.html')
+    company =  Company.objects.filter(email=request.session.get('user_email')).first()
+    return render(request, 'company_dashboard.html',{'company' : company})
 
 @login_required
 def company_profile(request):
@@ -374,6 +379,10 @@ def view_companies(request):
     user_type = request.session.get('user_type')  #ftch the user type from the session
     return render(request, 'view_companies.html', {'companies': companies, 'user_type': user_type})
 
+def view_students(request):
+    students = Student.objects.all()
+    user_type = request.session.get('user_type')  #ftch the user type from the session
+    return render(request, 'view_students.html', {'students': students, 'user_type': user_type})
 #INTERNSHIP
 @login_required
 def add_internship(request):

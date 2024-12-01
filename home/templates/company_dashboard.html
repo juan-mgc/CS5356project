@@ -18,6 +18,14 @@
         color: white; /* Change text color to white for contrast */
         border: none; /* Remove button border */
     }
+    .welcome-heading {
+        text-align: center;
+        font-family: Times New Roman;
+        font-size: 40px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color:#007bff; /* Optional: Blue color */
+    }
 </style>
 <body>
 
@@ -25,17 +33,19 @@
     <div class="container-fluid h-custom">
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-9 col-lg-6 col-xl-5">
+                <h2 class="welcome-heading">Hi, {{ company.company_name }} !</h2>
+                <h2 class = "welcome-heading">Welcome to your Company Dashboard</h2>
                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
                      class="img-fluid" alt="Sample image">
             </div>
             <div style="margin-top:10px;" class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                 <div class="text-center">
-                    <h2>Welcome to Your Dashboard</h2>
+                    
                 <p>   </p>
                
                     <!-- Buttons -->
                     <a href="{% url 'company_profile' %}">
-                        <button class="btn btn-primary btn-custom">PROFILE</button>
+                        <button class="btn btn-primary btn-custom">MY PROFILE</button>
                     </a>
                     <a href="{% url 'view_internships' %}">
                         <button class="btn btn-primary btn-custom">INTERNSHIPS</button>

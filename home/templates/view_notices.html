@@ -7,7 +7,6 @@
     * {
         margin: 0;
         padding: 0;
-        font-family: 'Nunito', sans-serif;
         box-sizing: border-box;
     }
     body {
@@ -17,7 +16,7 @@
         font-size: 12px; /* Reduced button size */
         width: 100%; /* Make buttons fit within table cells */
         margin-bottom: 10px;
-        background-color: #007bff; /* Light blue background for buttons */
+        background-color:navy; /* Light blue background for buttons */
         color: white;
         border: none;
         border-radius: 5px;
@@ -29,11 +28,12 @@
         margin-top: 30px;
     }
     table {
-        width: 100%; /* Stretch the table to fill the container */
-        table-layout: fixed;
+        width: 100%;
+        table-layout: auto;
+        word-wrap: break-word;
     }
     thead {
-        background-color: #007bff; /* Light blue color */
+        background-color: navy; /* Light blue color */
         color: white;
     }
     th, td {
@@ -41,10 +41,11 @@
         text-align: center;
     }
     .header {
-        padding-top: 30px;
+        padding-top: 10px;
         text-align: center;
-        font-size: 30px;
-        color: #007bff; /* Light blue for the header */
+        font-size: 60px;
+        color: navy; /* Light blue for the header */
+        font-family:'Times New Roman';
     }
     .search-bar {
         width: 200px;
@@ -78,8 +79,8 @@
                 <div class="col-md-12 col-lg-10 col-xl-10">
                     <!-- Header -->
                     <div class="header">
-                        <h2>Career-X</h2>
-                        <p>Manage your notices with ease</p>
+                        <h><b>NOTICES</b></h>
+                        
                     </div>
     
                     <!-- Search and Actions -->
@@ -94,7 +95,7 @@
                             </a>
                             {% endif %}
                             <a href="{% url 'dashboard' %}">
-                                <button class="btn btn-secondary btn-custom">Dashboard</button>
+                                <button class="btn btn-secondary btn-custom">Back to Dashboard</button>
                             </a>
                         </div>
                     </div>

@@ -7,7 +7,7 @@
     * {
         margin: 0;
         padding: 0;
-        font-family: 'Nunito', sans-serif;
+        
         box-sizing: border-box;
     }
     input::placeholder {
@@ -25,6 +25,19 @@
         margin-top: 20px; /* Space above the box */
         background-color: #fff; /* Background color */
     }
+    .btn-new{
+      background : navy;
+      font-size: 12px;
+  }
+  .heading {
+    font-size: 50px;
+    font-family: 'Times New Roman';
+    font-weight: bold;
+    color: navy; /* Blue color */
+    text-align: left;
+    margin-top:0px;
+    margin-left: 130px; /* Position the heading to the left */
+    }
   </style>
 </head>
 <body>
@@ -32,6 +45,9 @@
     <div class="container-fluid h-custom">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-md-9 col-lg-6 col-xl-5">
+          <div class="col-12">
+            <h1 class="heading">ADD NOTICE</h1>
+          </div>
           <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
             class="img-fluid" alt="Sample image">
         </div>
@@ -60,8 +76,8 @@
             </select>
         
             <div class="text-center mt-4">
-              <button type="submit" class="btn btn-primary">Add Event</button>
-              <button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancel</button>
+              <button type="submit" class="btn btn-primary btn-new">Add Notice</button>
+              <button type="button" class="btn btn-secondary btn-new" onclick="window.history.back();">Cancel</button>
             </div>
         </form>
         
