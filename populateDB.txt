@@ -38,6 +38,9 @@ dummy_students = [
         "cgpa": 3.92,
         "password": "password2"
     },
+    # remaining students are filled with the information, where i ranges from 3 to 31:
+    # "email": f"student{i}@example.com",
+    # "password": f"password{i:03d}"
 ]
 for student_data in dummy_students:
     student = Student(**student_data)
@@ -129,6 +132,9 @@ dummy_companies = [
         "pincode": 73301,
         "password": "password5"
     },
+    # remaining companies are filled with the information, where i ranges from 6 to 13:
+    # "email": f"contact{i}@example.com",
+    # "password": f"password{i:03d}"
 ]
 for company_data in dummy_companies:
     company = Company(**company_data)
