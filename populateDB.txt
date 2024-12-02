@@ -5,7 +5,7 @@ dummy_students = [
     {
         "student_id": 2,
         "full_name": "Alice Johnson",
-        "email": "alice@gmail.com",  # Updated to @gmail.com
+        "email": "alice@gmail.com",
         "contact_number": 1234567890,
         "date_of_birth": date(2000, 1, 1),
         "gender": "Female",
@@ -15,52 +15,28 @@ dummy_students = [
         "password": "pass"
     },
     {
-        "student_id": 3,
-        "full_name": "Bob Smith",
-        "email": "bob@gmail.com",  # Updated to @gmail.com
-        "contact_number": 1234567891,
-        "date_of_birth": date(2001, 2, 2),
+        "student_id": 32,
+        "full_name": "John Dox",
+        "email": "johndox@example.com",
+        "contact_number": 9876543210,
+        "date_of_birth": date(2001, 5, 10),
         "gender": "Male",
+        "r_number": "R001",
+        "department": "Computer Science",
+        "cgpa": 3.85,
+        "password": "password1"
+    },
+    {
+        "student_id": 33,
+        "full_name": "Jane Snow",
+        "email": "janesnow@example.com",
+        "contact_number": 9123456789,
+        "date_of_birth": date(2000, 8, 15),
+        "gender": "Female",
         "r_number": "R002",
         "department": "Mechanical Engineering",
-        "cgpa": "3.5",
+        "cgpa": 3.92,
         "password": "password2"
-    },
-    {
-        "student_id": 4,
-        "full_name": "Charlie Brown",
-        "email": "charlie@gmail.com",  # Updated to @gmail.com
-        "contact_number": 1234567892,
-        "date_of_birth": date(2002, 3, 3),
-        "gender": "Male",
-        "r_number": "R003",
-        "department": "Physics",
-        "cgpa": "3.6",
-        "password": "password3"
-    },
-    {
-        "student_id": 5,
-        "full_name": "Daisy Green",
-        "email": "daisy@gmail.com",  # Updated to @gmail.com
-        "contact_number": 1234567893,
-        "date_of_birth": date(1999, 4, 4),
-        "gender": "Female",
-        "r_number": "R004",
-        "department": "Chemistry",
-        "cgpa": "3.9",
-        "password": "password4"
-    },
-    {
-        "student_id": 6,
-        "full_name": "Ethan White",
-        "email": "ethan@gmail.com",  # Updated to @gmail.com
-        "contact_number": 1234567894,
-        "date_of_birth": date(2003, 5, 5),
-        "gender": "Male",
-        "r_number": "R005",
-        "department": "Mathematics",
-        "cgpa": "3.7",
-        "password": "password5"
     },
 ]
 for student_data in dummy_students:
@@ -95,15 +71,15 @@ from home.models import Company
 dummy_companies = [
     {
         "company_id": 1,
-        "company_name": "Tech Solutions Inc.",
-        "email": "contact@techsolutions.com",
-        "contact_number": 1234567890,
-        "street_number": "1234 Elm St",
-        "city": "New York",
-        "state": "NY",
+        "company_name": "CareerX Inc.",
+        "email": "contact@careerx.com",
+        "contact_number": 9876543210,
+        "street_number": "1234 Elm Street",
+        "city": "San Francisco",
+        "state": "California",
         "country": "USA",
-        "pincode": 10001,
-        "password": "password1"
+        "pincode": "94107",
+        "password": "pass1"
     },
     {
         "company_id": 2,
@@ -208,7 +184,7 @@ dummy_notices = [
     {
         "announcement_text": "Midterm exams will start next week. Please be prepared.",
         "created_by_id": 1,  # John Doe's admin_id
-        "recipient_id": 2,   # Alice Johnson's student_id
+        "recipient_id": 2,
         "date_created": date(2024, 11, 1)
     },
 ]
@@ -243,6 +219,30 @@ dummy_jobs = [
         "start_date": date(2024, 12, 1),
         "last_date_to_apply": date(2024, 11, 20),
     },
+    {
+        "job_role": "Data Analyst",
+        "description": "Analyze data and generate insights for business.",
+        "company_id": 3,
+        "created_by_id": 1,
+        "posted_date": date(2024, 11, 2),
+        "job_type": "part_time",
+        "location": "New York, NY",
+        "salary": 40000,
+        "start_date": date(2025, 1, 15),
+        "last_date_to_apply": date(2024, 12, 15),
+    },
+    {
+        "job_role": "UIUX Designer",
+        "description": "Design user interfaces and improve user experience.",
+        "company_id": 1,
+        "created_by_id": 1,
+        "posted_date": date(2024, 11, 3),
+        "job_type": "full_time",
+        "location": "remote",
+        "salary": 60000,
+        "start_date": date(2025, 1, 1),
+        "last_date_to_apply": date(2024, 12, 5),
+    },
 ]
 
 for job_data in dummy_jobs:
@@ -275,6 +275,32 @@ dummy_internships = [
         "start_date": date(2024, 12, 1),
         "duration_months": 6,
         "last_date_to_apply": date(2024, 11, 20),
+        "company_id": 1,
+        "created_by_id": 1,
+    },
+    {
+        "internship_id": "I-002",
+        "internship_role": "Data Science Intern",
+        "description": "Support data analysis tasks and create predictive models.",
+        "internship_type": "part_time",
+        "location": "Chicago, IL",
+        "stipend": 2000,
+        "start_date": date(2025, 1, 10),
+        "duration_months": 3,
+        "last_date_to_apply": date(2024, 12, 25),
+        "company_id": 3,
+        "created_by_id": 1,
+    },
+    {
+        "internship_id": "I-003",
+        "internship_role": "Marketing Intern",
+        "description": "Assist in marketing campaigns and manage social media.",
+        "internship_type": "remote",
+        "location": "remote",
+        "stipend": 1000,
+        "start_date": date(2025, 2, 1),
+        "duration_months": 4,
+        "last_date_to_apply": date(2024, 12, 30),
         "company_id": 1,
         "created_by_id": 1,
     },
