@@ -41,6 +41,19 @@ dummy_students = [
     # remaining students are filled with the information, where i ranges from 3 to 31:
     # "email": f"student{i}@example.com",
     # "password": f"password{i:03d}"
+    # default student for Notices:
+    {
+        "student_id": 1,
+        "full_name": "Michael Scott",
+        "email": "newstudent@example.com",
+        "contact_number": 1234567890,
+        "date_of_birth": date(1999, 12, 31),
+        "gender": "Other",
+        "r_number": "R999",
+        "department": "Physics",
+        "cgpa": 3.5,
+        "password": "securepassword"
+    },
 ]
 for student_data in dummy_students:
     student = Student(**student_data)

@@ -1,4 +1,5 @@
 {% load static %}
+{% comment %} Note that notices are made to be targetted to students {% endcomment %}
 <html>
 <head>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -53,35 +54,29 @@
         </div>
 
         <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 form-container" style="margin-top:10px;">
-          <form method="post" action="{% url 'view_notices' %}">
+          <form method="post" action="{% url 'add_notice' %}">
             {% csrf_token %}
-            <textarea name="announcement_text" class="form-control" placeholder="Enter announcement text" required></textarea>
-            
-            {% comment %} <!-- Admin Selection -->
-            <label for="created_by_id">Select Admin:</label>
-            <select name="created_by_id" class="form-control" required>
-                <option value="">Select Admin</option>
-                {% for admin in admins %}
-                <option value="{{ admin.id }}">{{ admin.full_name }}</option>
-                {% endfor %}
-            </select> {% endcomment %}
-        
-            <!-- Student Selection 
-            <label for="recipient_id">Select Student:</label>
-            <select name="recipient_id" class="form-control" required>
-                <option value="">Select Student</option>
-                {% for student in students %}
-                <option value="{{ student.student_id }}">{{ student.full_name }}</option>
-                {% endfor %}
-            </select>
-            -->
-        
+            <div class="form-group">
+              <textarea name="announcement_text" class="form-control" placeholder="Enter announcement text" required></textarea>
+            </div>
+
+            <!-- Student Selection -->
+            {% comment %} <div class="form-group">
+              <label for="recipient_id">Select Student:</label>
+              <select name="recipient_id" class="form-control" required>
+                  <option value="">Select Student</option>
+                  {% for student in students %}
+                  <option value="{{ student.student_id }}">{{ student.full_name }}</option>
+                  {% endfor %}
+              </select>
+            </div> {% endcomment %}
+
+            <!-- Submit Buttons -->
             <div class="text-center mt-4">
               <button type="submit" class="btn btn-primary btn-new">Add Notice</button>
               <button type="button" class="btn btn-secondary btn-new" onclick="window.history.back();">Cancel</button>
             </div>
-        </form>
-        
+          </form>
         </div>
       </div>
     </div>

@@ -821,10 +821,9 @@ def add_notice(request):
 
     if request.method == "POST":
         announcement_text = request.POST.get("announcement_text")
-        created_by_id = request.POST.get("created_by_id")
         #recipient_id = request.POST.get("recipient_id")
         try:
-            created_by = Admin.objects.get(pk=created_by_id)
+            created_by = Admin.objects.get(email=request.session.get('user_email'))
             #recipient = Student.objects.get(pk=recipient_id)
 
             notice = Notice(
@@ -833,12 +832,13 @@ def add_notice(request):
                 #recipient=recipient
             )
             notice.save()
+
             messages.success(request, "Notice added successfully.")
             return redirect('view_notices')
-        except Admin.DoesNotExist:
-            messages.error(request, "Invalid admin ID.")
         except Student.DoesNotExist:
             messages.error(request, "Invalid student ID.")
+        except Admin.DoesNotExist:
+            messages.error(request, "Invalid admin or not logged in as admin.")
         except Exception as e:
             messages.error(request, f"An error occurred: {str(e)}")
     #pass admins and students to the template
